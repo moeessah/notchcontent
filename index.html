@@ -1493,13 +1493,13 @@
 // API ENDPOINT: auto-detect Claude artifact vs Vercel deploy
 // ============================================================
 function getApiEndpoint() {
-  const h = window.location.hostname;
-  // Only use the Vercel proxy when deployed to your own domain
-  // (vercel.app, or a custom domain you set up)
-  if (h.endsWith('.vercel.app') || h.endsWith('.notch.win') || h.endsWith('.notchwin.com')) {
+  // In Vercel/hosted context, use the proxy
+  if (window.location.hostname !== 'localhost' &&
+      !window.location.hostname.includes('claude.ai') &&
+      !window.location.hostname.includes('anthropic')) {
     return '/api/generate';
   }
-  // Everywhere else (Claude renderer, localhost, any other preview) — call Anthropic directly
+  // In Claude artifact renderer, call Anthropic directly (auth handled by Claude)
   return 'https://api.anthropic.com/v1/messages';
 }
 

@@ -1,12 +1,10 @@
-Upload/deploy this folder with this exact structure:
+Upload these files to GitHub in this exact layout:
 
-notchcontent_upload/
-  index.html
-  vercel.json
-  api/
-    generate.js
+index.html
+vercel.json
+api/generate.js
 
-Important:
-- The API file must be inside the api folder.
-- In Vercel, keep the environment variable named exactly GEMINI_API_KEY.
-- Do not paste the Gemini key into any code file.
+Vercel Environment Variable:
+GEMINI_API_KEY = your Google AI Studio key
+
+After uploading, commit changes and wait for Vercel to redeploy.

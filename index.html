@@ -1,0 +1,2179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOTCH — Marketing Application</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #060c18;
+    --navy-2: #0c1828;
+    --navy-3: #112035;
+    --navy-4: #1a3050;
+    --electric: #00cfff;
+    --electric-dim: rgba(0,207,255,0.10);
+    --electric-border: rgba(0,207,255,0.22);
+    --red: #ff3b5c;
+    --red-dim: rgba(255,59,92,0.10);
+    --amber: #f5a623;
+    --amber-dim: rgba(245,166,35,0.10);
+    --green: #00e5a0;
+    --green-dim: rgba(0,229,160,0.08);
+    --violet: #a78bfa;
+    --violet-dim: rgba(167,139,250,0.10);
+    --white: #eef2f7;
+    --muted: #526a85;
+    --muted-2: #334d66;
+    --radius: 8px;
+    --radius-sm: 5px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.35;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: -30%;
+    left: -10%;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(ellipse, rgba(0,100,200,0.07) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* HEADER */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(6,12,24,0.94);
+    backdrop-filter: blur(24px);
+    border-bottom: 1px solid rgba(0,207,255,0.14);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 54px;
+  }
+
+  .header-left { display: flex; align-items: center; gap: 16px; }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 21px;
+    letter-spacing: 3px;
+    color: var(--white);
+  }
+  .logo span { color: var(--electric); }
+
+  .header-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    border: 1px solid var(--muted-2);
+    padding: 3px 9px;
+    border-radius: var(--radius-sm);
+    text-transform: uppercase;
+  }
+
+  .live-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--electric);
+  }
+
+  .live-dot {
+    width: 6px; height: 6px;
+    background: var(--electric);
+    border-radius: 50%;
+    animation: pulse 1.8s infinite;
+    box-shadow: 0 0 6px var(--electric);
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(0.75); }
+  }
+
+  .header-right { display: flex; align-items: center; gap: 20px; }
+
+  .header-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* MAIN LAYOUT */
+  .container {
+    max-width: 1420px;
+    margin: 0 auto;
+    padding: 28px 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* BREAKING BANNER */
+  .breaking-banner {
+    background: linear-gradient(135deg, rgba(255,59,92,0.12), rgba(255,59,92,0.04));
+    border: 1px solid rgba(255,59,92,0.35);
+    border-left: 3px solid var(--red);
+    padding: 16px 22px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    border-radius: var(--radius);
+    animation: slideIn 0.5s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .breaking-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    color: var(--red);
+    background: rgba(255,59,92,0.10);
+    padding: 4px 8px;
+    white-space: nowrap;
+    margin-top: 2px;
+    flex-shrink: 0;
+    border-radius: 3px;
+  }
+
+  .breaking-content h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  .breaking-content p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .breaking-score {
+    margin-left: auto;
+    flex-shrink: 0;
+    text-align: right;
+  }
+
+  .score-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    color: var(--red);
+    line-height: 1;
+  }
+
+  .score-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* GRIDS */
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .grid-main { display: grid; grid-template-columns: 1fr 370px; gap: 14px; margin-bottom: 14px; }
+
+  /* PANELS */
+  .panel {
+    background: var(--navy-2);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+  }
+
+  .panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,207,255,0.2), transparent);
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .panel-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .panel-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  .badge-electric { background: var(--electric-dim); color: var(--electric); border: 1px solid var(--electric-border); }
+  .badge-red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(255,59,92,0.28); }
+  .badge-amber { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,166,35,0.28); }
+  .badge-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,229,160,0.25); }
+
+  /* WHY TODAY */
+  .why-today {
+    background: linear-gradient(135deg, rgba(0,207,255,0.05), rgba(0,50,100,0.08));
+    border: 1px solid var(--electric-border);
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    position: relative;
+    border-radius: var(--radius);
+  }
+
+  .why-today::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 2px;
+    background: var(--electric);
+    border-radius: var(--radius) 0 0 var(--radius);
+  }
+
+  .why-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--electric);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .why-text {
+    font-size: 13px;
+    color: rgba(238,242,247,0.82);
+    line-height: 1.7;
+  }
+
+  .why-text strong { color: var(--white); font-weight: 600; }
+
+  .content-shift {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .shift-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 5px 11px;
+    border: 1px solid rgba(255,255,255,0.07);
+    color: var(--muted);
+    border-radius: var(--radius-sm);
+  }
+
+  .shift-item.active {
+    border-color: var(--electric-border);
+    color: var(--electric);
+    background: var(--electric-dim);
+  }
+
+  .shift-arrow { color: var(--muted-2); font-size: 11px; }
+
+  /* NEWS FEED */
+  .news-item {
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .news-item:last-child { border-bottom: none; }
+
+  .news-item:hover {
+    background: rgba(0,207,255,0.025);
+    margin: 0 -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .news-score-badge {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    margin-top: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  .score-100 { background: rgba(255,59,92,0.13); color: var(--red); border: 1px solid rgba(255,59,92,0.28); }
+  .score-90 { background: rgba(245,166,35,0.10); color: var(--amber); border: 1px solid rgba(245,166,35,0.28); }
+  .score-80 { background: rgba(0,207,255,0.07); color: var(--electric); border: 1px solid var(--electric-border); }
+  .score-70 { background: rgba(255,255,255,0.04); color: var(--muted); border: 1px solid rgba(255,255,255,0.08); }
+
+  .news-body { flex: 1; min-width: 0; }
+
+  .news-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+
+  .news-category {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .cat-ucl { color: var(--violet); background: var(--violet-dim); }
+  .cat-transfers { color: var(--electric); background: var(--electric-dim); }
+  .cat-worldcup { color: #fbbf24; background: rgba(251,191,36,0.09); }
+  .cat-market { color: var(--green); background: var(--green-dim); }
+
+  .news-time { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--muted-2); }
+
+  .news-headline { font-size: 13px; font-weight: 500; color: var(--white); line-height: 1.4; margin-bottom: 4px; }
+  .news-sub { font-size: 11px; color: var(--muted); line-height: 1.45; }
+
+  .news-actions { display: flex; gap: 8px; margin-top: 9px; flex-wrap: wrap; }
+
+  .news-action-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 4px 11px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.15s;
+    border-radius: 4px;
+  }
+
+  .btn-generate { background: var(--electric-dim); color: var(--electric); border: 1px solid var(--electric-border); }
+  .btn-generate:hover { background: rgba(0,207,255,0.18); }
+  .btn-market { background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,229,160,0.25); }
+  .btn-market:hover { background: rgba(0,229,160,0.15); }
+
+  /* AI OUTPUT */
+  .ai-output {
+    background: rgba(0,5,18,0.55);
+    border: 1px solid var(--electric-border);
+    padding: 14px;
+    margin-top: 11px;
+    display: none;
+    border-radius: var(--radius-sm);
+  }
+
+  .ai-output.visible { display: block; animation: fadeIn 0.25s ease; }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .ai-output-header { display: flex; align-items: center; gap: 8px; margin-bottom: 11px; }
+
+  .ai-thinking {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--electric);
+    text-transform: uppercase;
+  }
+
+  .ai-spinner {
+    width: 11px; height: 11px;
+    border: 1.5px solid var(--electric-border);
+    border-top-color: var(--electric);
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+    display: none;
+  }
+
+  .ai-spinner.spinning { display: block; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .ai-content { font-size: 12px; color: rgba(238,242,247,0.8); line-height: 1.6; }
+
+  .ai-section-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin: 10px 0 5px;
+  }
+
+  .market-idea {
+    background: rgba(0,229,160,0.05);
+    border: 1px solid rgba(0,229,160,0.14);
+    padding: 8px 11px;
+    margin-bottom: 5px;
+    font-size: 11px;
+    color: var(--white);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    border-radius: var(--radius-sm);
+  }
+
+  .market-idea::before { content: '→'; color: var(--green); font-family: 'DM Mono', monospace; flex-shrink: 0; margin-top: 1px; }
+
+  .social-post {
+    background: rgba(0,207,255,0.04);
+    border: 1px solid var(--electric-border);
+    padding: 9px 11px;
+    margin-bottom: 5px;
+    font-size: 11px;
+    color: rgba(238,242,247,0.85);
+    line-height: 1.55;
+    border-radius: var(--radius-sm);
+  }
+
+  .push-notif {
+    background: rgba(245,166,35,0.05);
+    border: 1px solid rgba(245,166,35,0.18);
+    padding: 8px 11px;
+    font-size: 11px;
+    color: var(--white);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    border-radius: var(--radius-sm);
+    margin-bottom: 5px;
+  }
+
+  .push-icon { color: var(--amber); flex-shrink: 0; margin-top: 1px; }
+
+  .error-text {
+    font-size: 11px;
+    color: var(--red);
+    font-family: 'DM Mono', monospace;
+    padding: 8px 0;
+  }
+
+  /* STATS */
+  .stat-panel {
+    background: var(--navy-2);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 18px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+  }
+
+  .stat-panel::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--electric), transparent);
+    opacity: 0.35;
+  }
+
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 34px; line-height: 1; margin-bottom: 4px; }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    margin-bottom: 20px;
+  }
+
+  .tab {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+
+  .tab:hover { color: var(--white); }
+  .tab.active { color: var(--electric); border-bottom-color: var(--electric); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* CALENDAR */
+  .calendar-layout {
+    display: grid;
+    grid-template-columns: 60% 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .calendar-grid-panel {
+    background: var(--navy-2);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 20px;
+    border-radius: var(--radius);
+  }
+
+  .cal-month-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .cal-month-tab {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 8px 18px;
+    cursor: pointer;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+
+  .cal-month-tab:hover { color: var(--white); }
+  .cal-month-tab.active { color: var(--electric); border-bottom-color: var(--electric); }
+
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+  }
+
+  .cal-weekday {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--muted-2);
+    text-align: center;
+    padding: 4px 0 8px;
+    text-transform: uppercase;
+  }
+
+  .cal-cell {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+    min-height: 44px;
+  }
+
+  .cal-cell:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); }
+
+  .cal-cell.has-event { cursor: pointer; }
+
+  .cal-cell.has-event:hover { background: rgba(0,207,255,0.07); border-color: var(--electric-border); }
+
+  .cal-cell.selected { background: rgba(0,207,255,0.10); border-color: var(--electric); }
+
+  .cal-cell.empty { cursor: default; }
+  .cal-cell.empty:hover { background: none; border-color: transparent; }
+
+  .cal-cell-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+
+  .cal-cell.has-event .cal-cell-num { color: var(--white); font-weight: 500; }
+  .cal-cell.selected .cal-cell-num { color: var(--electric); }
+
+  .cal-cell-dots {
+    display: flex;
+    gap: 2px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 26px;
+  }
+
+  .cal-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .dot-react { background: var(--red); }
+  .dot-anticipate { background: var(--electric); }
+  .dot-analyze { background: var(--violet); }
+  .dot-culture { background: var(--green); }
+  .dot-product { background: var(--amber); }
+
+  /* EVENT DETAIL PANEL */
+  .event-detail-panel {
+    background: var(--navy-2);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 20px;
+    border-radius: var(--radius);
+    position: sticky;
+    top: 70px;
+  }
+
+  .event-detail-empty {
+    text-align: center;
+    padding: 40px 0;
+  }
+
+  .event-detail-empty p {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    line-height: 1.6;
+  }
+
+  .event-date-display {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .event-month-display {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .event-card {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    border-radius: var(--radius-sm);
+  }
+
+  .event-card-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 5px;
+    line-height: 1.4;
+  }
+
+  .event-card-note {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  .event-timing-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .event-timing-chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    color: var(--muted);
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .event-timing-chip.time { color: var(--electric); border-color: var(--electric-border); background: var(--electric-dim); }
+  .event-timing-chip.medium { color: var(--amber); border-color: rgba(245,166,35,0.25); background: var(--amber-dim); }
+  .event-timing-chip.window { color: var(--green); border-color: rgba(0,229,160,0.2); background: var(--green-dim); }
+
+  .content-brief {
+    background: rgba(0,0,0,0.25);
+    border-left: 2px solid var(--electric);
+    padding: 10px 12px;
+    margin-top: 8px;
+    font-size: 11px;
+    color: rgba(238,242,247,0.8);
+    line-height: 1.55;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+
+  .content-brief-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--electric);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+
+  /* LIST VIEW below calendar */
+  .cal-list-section {
+    margin-top: 18px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 16px;
+  }
+
+  .cal-list-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--muted-2);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .cal-list-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    cursor: pointer;
+    transition: 0.15s;
+  }
+
+  .cal-list-item:hover { background: rgba(0,207,255,0.025); margin: 0 -20px; padding-left: 20px; padding-right: 20px; }
+
+  .cal-list-item:last-child { border-bottom: none; }
+
+  .cal-list-date {
+    flex-shrink: 0;
+    width: 44px;
+    text-align: center;
+  }
+
+  .cal-list-day { font-family: 'Bebas Neue', sans-serif; font-size: 20px; line-height: 1; color: var(--white); }
+  .cal-list-month { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; }
+
+  .cal-list-body { flex: 1; }
+  .cal-list-title-text { font-size: 12px; font-weight: 500; color: var(--white); margin-bottom: 2px; }
+  .cal-list-note { font-size: 10px; color: var(--muted); line-height: 1.4; }
+
+  .cal-layer {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 2px 6px;
+    display: inline-block;
+    margin-bottom: 3px;
+    border-radius: 3px;
+  }
+
+  .layer-react { background: var(--red-dim); color: var(--red); }
+  .layer-anticipate { background: var(--electric-dim); color: var(--electric); }
+  .layer-analyze { background: var(--violet-dim); color: var(--violet); }
+  .layer-culture { background: var(--green-dim); color: var(--green); }
+  .layer-product { background: var(--amber-dim); color: var(--amber); }
+
+  /* PHILOSOPHY */
+  .philosophy {
+    background: linear-gradient(135deg, var(--navy-2), rgba(10,22,40,0.8));
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 30px 34px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+  }
+
+  .philosophy::before {
+    content: '"';
+    position: absolute;
+    top: -20px; right: 18px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 200px;
+    color: rgba(0,207,255,0.035);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .phil-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--electric);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+
+  .phil-text {
+    font-size: 15px;
+    line-height: 1.85;
+    color: rgba(238,242,247,0.8);
+    max-width: 720px;
+    margin-bottom: 18px;
+  }
+
+  .phil-text strong { color: var(--white); font-weight: 600; }
+
+  .contrarian-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .contrarian-card {
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 16px;
+    border-radius: var(--radius-sm);
+    position: relative;
+  }
+
+  .contrarian-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  }
+
+  .contrarian-card.red::before { background: var(--red); }
+  .contrarian-card.amber::before { background: var(--amber); }
+  .contrarian-card.electric::before { background: var(--electric); }
+
+  .contrarian-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .contrarian-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .contrarian-body {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* First 30 days */
+  .acts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .act-block {
+    padding: 18px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(0,0,0,0.2);
+    position: relative;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .act-block::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    opacity: 0.6;
+  }
+
+  .act-block.ignition::after { background: var(--red); }
+  .act-block.worldcup::after { background: var(--amber); }
+  .act-block.season::after { background: var(--electric); }
+
+  .act-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--muted-2);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .act-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+
+  .act-block.ignition .act-title { color: var(--red); }
+  .act-block.worldcup .act-title { color: var(--amber); }
+  .act-block.season .act-title { color: var(--electric); }
+
+  .act-dates {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .act-payoff {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 10px;
+    line-height: 1.4;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .act-items { list-style: none; }
+
+  .act-items li {
+    font-size: 10px;
+    color: var(--muted);
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    line-height: 1.4;
+  }
+
+  .act-items li:last-child { border-bottom: none; }
+
+  .act-items li::before {
+    content: '/ ';
+    color: var(--muted-2);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* MACHINE */
+  .machine-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .flow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 12px 14px;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-top: none;
+    background: rgba(0,0,0,0.18);
+    transition: background 0.15s;
+  }
+
+  .flow-step:first-child { border-top: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-sm) var(--radius-sm) 0 0; }
+  .flow-step:last-child { border-radius: 0 0 var(--radius-sm) var(--radius-sm); }
+  .flow-step:hover { background: rgba(0,207,255,0.03); }
+
+  .flow-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    flex-shrink: 0;
+    min-width: 22px;
+  }
+
+  .flow-text { font-size: 11px; color: var(--white); line-height: 1.4; }
+  .flow-sub { font-size: 10px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+
+  /* CHANNELS */
+  .channel-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .channel-entry {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .channel-entry:last-child { border-bottom: none; }
+
+  .channel-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .channel-handle {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--muted-2);
+    margin-bottom: 5px;
+    line-height: 1.5;
+  }
+
+  .channel-detail {
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* SECTION DIVIDER */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 22px 0 16px;
+  }
+
+  .section-divider span {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--muted-2);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .section-divider::before,
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.05);
+  }
+
+  /* FOOTER */
+  .footer {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 22px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 32px;
+  }
+
+  .footer-name { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+  .footer-name strong { color: var(--white); }
+  .footer-tag { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--electric); letter-spacing: 2px; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--navy); }
+  ::-webkit-scrollbar-thumb { background: var(--navy-4); border-radius: 2px; }
+
+  @media (max-width: 900px) {
+    .grid-3, .grid-main, .acts-grid, .contrarian-grid { grid-template-columns: 1fr; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .calendar-layout { grid-template-columns: 1fr; }
+    .container { padding: 16px; }
+    .header { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <div class="logo">NOTCH<span>.</span>WIN</div>
+    <div class="header-tag">Marketing Application</div>
+  </div>
+  <div class="live-indicator">
+    <div class="live-dot"></div>
+    LIVE INTELLIGENCE
+  </div>
+  <div class="header-right">
+    <div class="header-time" id="live-time">--:-- UTC</div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- BREAKING BANNER -->
+  <div class="breaking-banner">
+    <div class="breaking-tag">PRIORITY 100</div>
+    <div class="breaking-content">
+      <h3>Arsenal lose UCL Final on penalties to PSG — Gabriel Magalhaes misses the decisive kick</h3>
+      <p>Budapest, 30 May 2026. Arsenal won the Premier League after 22 years, then Gabriel's spot-kick goes over the bar. ARS-PERP has had the most volatile 48 hours in its existence. This is the content moment. Not tomorrow. Now.</p>
+    </div>
+    <div class="breaking-score">
+      <div class="score-num">100</div>
+      <div class="score-label">Opportunity Score</div>
+    </div>
+  </div>
+
+  <!-- WHY TODAY MATTERS -->
+  <div class="why-today">
+    <div class="why-label">// Why Today Matters</div>
+    <div class="why-text">
+      <strong>The final ended 90 minutes ago.</strong> Arsenal won the Premier League for the first time in 22 years, then lost the biggest night of their generation on penalties this morning. Gabriel missed. The transfer window opens tomorrow. The World Cup starts in 12 days. <strong>Every fan is emotional, every trader is recalibrating, and the market is wide open.</strong> The content identity of a sports trading brand is built in moments like this, not in quarterly planning sessions.
+    </div>
+    <div class="content-shift">
+      <div class="shift-item">Match content: 70%</div>
+      <div class="shift-arrow">&#8594; becomes &#8594;</div>
+      <div class="shift-item active">Transfer speculation: 60%</div>
+      <div class="shift-item active">UCL aftermath: 25%</div>
+      <div class="shift-item active">World Cup build: 15%</div>
+    </div>
+  </div>
+
+  <!-- STATS ROW -->
+  <div class="grid-3" style="margin-bottom:16px;">
+    <div class="stat-panel">
+      <div class="stat-num" style="color:var(--electric)">12</div>
+      <div class="stat-label">Days to World Cup</div>
+    </div>
+    <div class="stat-panel">
+      <div class="stat-num" style="color:var(--amber)">104</div>
+      <div class="stat-label">World Cup Markets Available</div>
+    </div>
+    <div class="stat-panel">
+      <div class="stat-num" style="color:var(--red)">1</div>
+      <div class="stat-label">Days to Transfer Window</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('newsroom')">Newsroom Feed</button>
+    <button class="tab" onclick="switchTab('calendar')">90-Day Calendar</button>
+    <button class="tab" onclick="switchTab('machine')">The Machine</button>
+    <button class="tab" onclick="switchTab('philosophy')">Philosophy</button>
+  </div>
+
+  <!-- TAB: NEWSROOM -->
+  <div id="tab-newsroom" class="tab-content active">
+    <div class="grid-main">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">// Intelligence Feed</div>
+          <div class="panel-badge badge-red">Live</div>
+        </div>
+        <div id="news-feed"></div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">// Upcoming Catalysts</div>
+          </div>
+          <div id="catalysts-list"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">// Channel</div>
+          </div>
+          <div class="channel-grid">
+            <div class="channel-entry">
+              <div class="channel-name" style="color:var(--electric)">X / Twitter</div>
+              <div class="channel-handle">@SwissRamble @OptaJoe @FabrizioRomano @Ben_Jacobs @TifoFootball</div>
+              <div class="channel-detail">Real-time signal. Score 80+ only. Post within 5 minutes of the event. No explanations, no context. React and let the audience fill the gap.</div>
+            </div>
+            <div class="channel-entry">
+              <div class="channel-name" style="color:var(--violet)">Discord</div>
+              <div class="channel-handle">r/predictit, Football Finance Discord, Smarkets community</div>
+              <div class="channel-detail">Alpha channel for top traders. Leaderboards. The best calls become content. The community generates the distribution, not the other way around.</div>
+            </div>
+            <div class="channel-entry">
+              <div class="channel-name" style="color:var(--amber)">TikTok</div>
+              <div class="channel-handle">@footballdaily @footballjoe @talkSPORT</div>
+              <div class="channel-detail">Acquisition. The hook is never the mechanics. Make a fan feel like their prediction was worth something real. Product stays invisible, feeling stays front.</div>
+            </div>
+            <div class="channel-entry">
+              <div class="channel-name" style="color:var(--green)">Reddit</div>
+              <div class="channel-handle">r/soccer r/Gunners r/PredictionMarkets r/footballbetting</div>
+              <div class="channel-detail">Organic seeding. Post the data people reference, not the brand. When the community shares it, that is the ad.</div>
+            </div>
+            <div class="channel-entry">
+              <div class="channel-name" style="color:var(--red)">Telegram</div>
+              <div class="channel-handle">Transfer Room leaks channel, Romano alerts, Fabrizio exclusives</div>
+              <div class="channel-detail">Affiliate and influencer distribution. Transfer alerts wired directly to price action. Every Romano drop is a content trigger.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: CALENDAR -->
+  <div id="tab-calendar" class="tab-content">
+    <div class="calendar-layout">
+      <!-- LEFT: Visual Calendar -->
+      <div class="calendar-grid-panel">
+        <div class="panel-header" style="margin-bottom:12px;">
+          <div class="panel-title">// Content Calendar</div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <span class="cal-layer layer-react" style="font-size:8px;">React</span>
+            <span class="cal-layer layer-anticipate" style="font-size:8px;">Anticipate</span>
+            <span class="cal-layer layer-analyze" style="font-size:8px;">Analyze</span>
+            <span class="cal-layer layer-culture" style="font-size:8px;">Culture</span>
+            <span class="cal-layer layer-product" style="font-size:8px;">Product</span>
+          </div>
+        </div>
+
+        <div class="cal-month-tabs">
+          <button class="cal-month-tab active" onclick="switchCalMonth('june')">June</button>
+          <button class="cal-month-tab" onclick="switchCalMonth('july')">July</button>
+          <button class="cal-month-tab" onclick="switchCalMonth('august')">August</button>
+        </div>
+
+        <div id="cal-grid-june" class="cal-month-view">
+          <div class="cal-grid" id="grid-june"></div>
+          <div class="cal-list-section">
+            <div class="cal-list-title">// All June Events</div>
+            <div id="list-june"></div>
+          </div>
+        </div>
+        <div id="cal-grid-july" class="cal-month-view" style="display:none;">
+          <div class="cal-grid" id="grid-july"></div>
+          <div class="cal-list-section">
+            <div class="cal-list-title">// All July Events</div>
+            <div id="list-july"></div>
+          </div>
+        </div>
+        <div id="cal-grid-august" class="cal-month-view" style="display:none;">
+          <div class="cal-grid" id="grid-august"></div>
+          <div class="cal-list-section">
+            <div class="cal-list-title">// All August Events</div>
+            <div id="list-august"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Event Detail -->
+      <div class="event-detail-panel" id="event-detail-panel">
+        <div class="event-detail-empty" id="event-detail-empty">
+          <p>Click any highlighted<br>date to see the<br>content brief</p>
+        </div>
+        <div id="event-detail-content" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: THE MACHINE -->
+  <div id="tab-machine" class="tab-content">
+    <div class="grid-3">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">// Layer 1 — Detection</div>
+          <div class="panel-badge badge-red">Always On</div>
+        </div>
+        <div style="font-size:11px; color:var(--muted); line-height:1.7; margin-bottom:14px;">Every event enters as a signal, not a calendar item. Sources monitored continuously:</div>
+        <div style="display:flex; flex-direction:column; gap:5px;">
+          <div style="font-size:11px; color:var(--white); padding:8px 10px; border:1px solid rgba(255,255,255,0.06); background:rgba(0,0,0,0.2); border-radius:var(--radius-sm);">Romano / Jacobs / Ornstein feeds wired via API</div>
+          <div style="font-size:11px; color:var(--white); padding:8px 10px; border:1px solid rgba(255,255,255,0.06); background:rgba(0,0,0,0.2); border-radius:var(--radius-sm);">X social listening: @OptaJoe, @SwissRamble, top 150 football finance accounts</div>
+          <div style="font-size:11px; color:var(--white); padding:8px 10px; border:1px solid rgba(255,255,255,0.06); background:rgba(0,0,0,0.2); border-radius:var(--radius-sm);">r/soccer, r/Gunners, r/PredictionMarkets — volume spikes</div>
+          <div style="font-size:11px; color:var(--white); padding:8px 10px; border:1px solid rgba(255,255,255,0.06); background:rgba(0,0,0,0.2); border-radius:var(--radius-sm);">Google Trends: surge detection on player + club names</div>
+          <div style="font-size:11px; color:var(--white); padding:8px 10px; border:1px solid rgba(255,255,255,0.06); background:rgba(0,0,0,0.2); border-radius:var(--radius-sm);">ARS-PERP price feed: market signals content, content signals market</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">// Layer 2 — AI Score + Draft</div>
+          <div class="panel-badge badge-electric">Automated</div>
+        </div>
+        <div style="font-size:11px; color:var(--muted); line-height:1.7; margin-bottom:14px;">Every signal gets scored. Content drafted automatically for every channel, no brainstorm required:</div>
+        <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--electric); padding:12px; background:rgba(0,0,0,0.3); border:1px solid var(--electric-border); margin-bottom:10px; line-height:1.9; border-radius:var(--radius-sm);">
+          Score =<br>Virality x<br>Uncertainty x<br>Market Relevance x<br>Fan Intensity
+        </div>
+        <div style="font-size:10px; color:var(--muted); line-height:1.6;">Output: X posts, push notifications, Discord alpha, Reddit angles, TikTok hooks. All from one event trigger. Human approves, not brainstorms.</div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">// Layer 3 — Human Gate</div>
+          <div class="panel-badge badge-green">Non-Negotiable</div>
+        </div>
+        <div style="font-size:11px; color:var(--muted); line-height:1.7; margin-bottom:14px;">80% efficiency gain. Zero risk of tone-deaf posting. Every draft through a human before publish:</div>
+        <div class="machine-flow">
+          <div class="flow-step">
+            <span class="flow-num" style="color:var(--red);">01</span>
+            <div><div class="flow-text">Event detected and scored</div><div class="flow-sub">Automated. Instant.</div></div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-num" style="color:var(--amber);">02</span>
+            <div><div class="flow-text">AI drafts all channel formats</div><div class="flow-sub">X, Discord, push, Reddit, TikTok brief</div></div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-num" style="color:var(--electric);">03</span>
+            <div><div class="flow-text">Slack alert to content lead</div><div class="flow-sub">Full draft attached. One decision required.</div></div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-num" style="color:var(--green);">04</span>
+            <div><div class="flow-text">One-click approve to publish</div><div class="flow-sub">Or edit in 30 seconds. Ship fast.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"><span>Community Flywheel</span></div>
+
+    <div class="panel">
+      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:16px;">
+        <div>
+          <div style="font-size:12px; font-weight:600; color:var(--white); margin-bottom:8px;">First 500 Power Users</div>
+          <div style="font-size:11px; color:var(--muted); line-height:1.65;">The football finance accounts on X. The Discord mods who run match threads. The crypto trader who also runs a football pod. These people are worth more than any paid campaign. Give them early access. Make them look smart in front of their audience. Their community becomes Notch's community.</div>
+        </div>
+        <div>
+          <div style="font-size:12px; font-weight:600; color:var(--white); margin-bottom:8px;">Community as Content Source</div>
+          <div style="font-size:11px; color:var(--muted); line-height:1.65;">The best calls on Notch become the best content. "This trader went long ARS-PERP at 290 two weeks before Arsenal won the title." Leaderboards create status. Status creates retention. Retention creates the next 500 users. The community does not consume the content. It generates it.</div>
+        </div>
+        <div>
+          <div style="font-size:12px; font-weight:600; color:var(--white); margin-bottom:8px;">Feeling Before Mechanics</div>
+          <div style="font-size:11px; color:var(--muted); line-height:1.65;">Never lead with the product. The feeling of being right about football is the product. The perp is the plumbing. Every piece of content should make the reader feel like 20 years of watching football was actually building an edge. The moment they feel that, the mechanics do not need explaining.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: PHILOSOPHY -->
+  <div id="tab-philosophy" class="tab-content">
+    <div class="philosophy">
+      <div class="phil-title">// The Positioning</div>
+      <div class="phil-text">
+        Most football fans have been making predictions their whole life. The gap has always been that you could not do anything with them. Notch closes that gap. Not with complexity. Not with jargon. Just by making the instinct you already have into something that counts.
+      </div>
+      <div class="phil-text">
+        The reference that matters is not other prediction markets. It is <strong>what Robinhood felt like in 2016</strong> before everyone was on it. When it felt like something that was supposed to exist but had not yet. That feeling is rare. Notch has it. The job is to build the brand before the moment passes.
+      </div>
+      <div class="phil-text">
+        In two years, if this is done right, Notch is the tab football Twitter keeps open. Not because they are trading constantly, but because it is where the market has an opinion on the thing they just argued about in their group chat. <strong>The Bloomberg terminal for football fans who have never opened a Bloomberg terminal.</strong> Serious without being stiff. Sharp without being cold. The kind of brand account people actually follow because it makes them feel smarter.
+      </div>
+
+      <div class="section-divider" style="margin:24px 0 16px;"><span>Three Things Most People Get Wrong About Notch</span></div>
+
+      <div class="contrarian-grid">
+        <div class="contrarian-card red">
+          <div class="contrarian-label">Contrarian Take 01</div>
+          <div class="contrarian-title">The World Cup is a retention risk as much as an acquisition opportunity</div>
+          <div class="contrarian-body">Every competitor will flood acquisition channels during the World Cup. Casual fans drift toward national teams and away from club football. The playbook that works is not chasing volume in June and July. It is building deep club loyalty before the tournament, so when club football returns in August, Notch already has the audience that actually stays. The brands that win the World Cup window are not the ones who go loudest during it. They are the ones who are still there in September.</div>
+        </div>
+        <div class="contrarian-card amber">
+          <div class="contrarian-label">Contrarian Take 02</div>
+          <div class="contrarian-title">Notch's real competition is not Sorare or Polymarket. It is the betting apps fans already use without thinking</div>
+          <div class="contrarian-body">Every marketing instinct will point toward positioning against prediction markets or fantasy platforms. That is the wrong fight. The actual competitor is the Paddy Power app sitting on 40 million phones. Fans bet on football without considering alternatives because the habit is automatic. The job is not to win a feature comparison. It is to create a moment where a fan thinks "why did I never use this instead." That requires cultural placement, not product marketing. The first time someone explains Notch to a friend without using the word platform, you have won.</div>
+        </div>
+        <div class="contrarian-card electric">
+          <div class="contrarian-label">Contrarian Take 03</div>
+          <div class="contrarian-title">Notch does not need more content. It needs fewer, better-placed moments that land in the right rooms</div>
+          <div class="contrarian-body">Early-stage sports brands consistently over-index on content volume and under-index on cultural precision. Sorare's breakout was not a campaign. It was three or four moments that landed in exactly the right communities at exactly the right time, and those communities did the rest. For Notch, one screenshot from a Discord alpha channel that gets retweeted by the right account is worth more than 30 posts that performed well in a dashboard. The first 90 days are not about building an audience. They are about finding the rooms where the right people already are, and earning a seat.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"><span>90 Days in Three Acts</span></div>
+
+    <div class="acts-grid">
+      <div class="act-block ignition">
+        <div class="act-num">Act One / Days 1 to 30</div>
+        <div class="act-title">Ignition</div>
+        <div class="act-dates">May 31 to Jun 28</div>
+        <div class="act-payoff">By the end of this act: Notch has a voice. The first 50 power users are inside. The UCL aftermath content sets the tone for everything that follows. People in the right rooms have heard of us.</div>
+        <ul class="act-items">
+          <li>UCL final reaction content live within the hour</li>
+          <li>Identify and personally onboard first 50 power users</li>
+          <li>Wire the detection layer: Romano feed, X listening, price triggers</li>
+          <li>Discord alpha channel structured and seeded</li>
+          <li>Transfer window content running daily from June 1</li>
+          <li>World Cup content calendar mapped market by market</li>
+          <li>Messi hamstring narrative owned: uncertainty is the trade</li>
+        </ul>
+      </div>
+      <div class="act-block worldcup">
+        <div class="act-num">Act Two / Days 31 to 60</div>
+        <div class="act-title">World Cup</div>
+        <div class="act-dates">Jun 29 to Jul 27</div>
+        <div class="act-payoff">By the end of this act: the community is generating its own content. The best calls from the tournament have been published as stories. Notch feels like the place that understood the market when nobody else did.</div>
+        <ul class="act-items">
+          <li>38 days of continuous market events, content machine live</li>
+          <li>Messi birthday moment owned with market framing not sentiment</li>
+          <li>Club transfer speculation running parallel to tournament content</li>
+          <li>First community leaderboard published mid-tournament</li>
+          <li>Affiliate network activated through Telegram distribution</li>
+          <li>Best calls from the tournament surfaced as editorial content</li>
+          <li>Retention cohort of World Cup users brought into club football content</li>
+        </ul>
+      </div>
+      <div class="act-block season">
+        <div class="act-num">Act Three / Days 61 to 90</div>
+        <div class="act-title">New Season</div>
+        <div class="act-dates">Jul 28 to Aug 28</div>
+        <div class="act-payoff">By the end of this act: Notch is the default tab for a specific type of football fan. The brand is known in the right rooms. The Premier League season begins with an audience that is already primed, already in the community, already watching the market.</div>
+        <ul class="act-items">
+          <li>Arsenal Singapore pre-season as first post-UCL brand moment</li>
+          <li>Transfer deadline day content machine at full capacity</li>
+          <li>PL fixture release mapped to market implications</li>
+          <li>Premier League 26/27 season launch: ARS-PERP enters new season</li>
+          <li>Referral loop seeded through power user network at scale</li>
+          <li>First 90-day review: cut what is not working, double what is</li>
+          <li>Three bold bets documented and published as a public record</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-divider"><span>Three Bets I Am Making</span></div>
+
+    <div class="panel">
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;">
+        <div style="padding:4px 0;">
+          <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; color:var(--red); margin-bottom:8px; text-transform:uppercase;">Bet 01</div>
+          <div style="font-size:12px; font-weight:600; color:var(--white); margin-bottom:8px; line-height:1.4;">The first 500 users are worth more than 50,000 impressions</div>
+          <div style="font-size:11px; color:var(--muted); line-height:1.6;">Every hour spent finding and activating the right people in the right communities will compound in ways that paid reach cannot. I will spend the first two weeks on this almost exclusively, and the metric that matters is not follower count but how many times someone in the right room says "have you seen Notch."</div>
+        </div>
+        <div style="padding:4px 0;">
+          <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; color:var(--amber); margin-bottom:8px; text-transform:uppercase;">Bet 02</div>
+          <div style="font-size:12px; font-weight:600; color:var(--white); margin-bottom:8px; line-height:1.4;">The August retention cohort is more valuable than the June acquisition spike</div>
+          <div style="font-size:11px; color:var(--muted); line-height:1.6;">I will invest disproportionately in content that bridges World Cup casual fans into club football fans before the season starts. The brands that treat the World Cup as a standalone acquisition moment will lose most of those users by September. The ones who plan the bridge now will keep them.</div>
+        </div>
+        <div style="padding:4px 0;">
+          <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; color:var(--electric); margin-bottom:8px; text-transform:uppercase;">Bet 03</div>
+          <div style="font-size:12px; font-weight:600; color:var(--white); margin-bottom:8px; line-height:1.4;">One piece of content that earns its way into a group chat beats every paid placement</div>
+          <div style="font-size:11px; color:var(--muted); line-height:1.6;">The test for everything we publish: would someone send this to a friend without thinking? Not because it is clever, but because it says something about football that they wanted to say but could not. If yes, publish. If not, it is not ready. I will hold everything to that standard and the volume will follow.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-name">Prepared by <strong>Essah</strong> &mdash; Marketing Application, Notch.win</div>
+  <div class="footer-tag">2026</div>
+</footer>
+
+<script>
+// ============================================================
+// API ENDPOINT: auto-detect Claude artifact vs Vercel deploy
+// ============================================================
+function getApiEndpoint() {
+  const h = window.location.hostname;
+  // Only use the Vercel proxy when deployed to your own domain
+  // (vercel.app, or a custom domain you set up)
+  if (h.endsWith('.vercel.app') || h.endsWith('.notch.win') || h.endsWith('.notchwin.com')) {
+    return '/api/generate';
+  }
+  // Everywhere else (Claude renderer, localhost, any other preview) — call Anthropic directly
+  return 'https://api.anthropic.com/v1/messages';
+}
+
+function buildFetchOptions(prompt) {
+  const endpoint = getApiEndpoint();
+  const isDirect = endpoint.includes('anthropic.com');
+
+  const headers = { 'Content-Type': 'application/json' };
+  if (isDirect) {
+    headers['anthropic-version'] = '2023-06-01';
+  }
+
+  return {
+    url: endpoint,
+    options: {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    }
+  };
+}
+
+// ============================================================
+// LIVE TIME
+// ============================================================
+function updateTime() {
+  const now = new Date();
+  const h = String(now.getUTCHours()).padStart(2,'0');
+  const m = String(now.getUTCMinutes()).padStart(2,'0');
+  const s = String(now.getUTCSeconds()).padStart(2,'0');
+  document.getElementById('live-time').textContent = `${h}:${m}:${s} UTC`;
+}
+setInterval(updateTime, 1000);
+updateTime();
+
+// ============================================================
+// TABS
+// ============================================================
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[onclick="switchTab('${id}')"]`).classList.add('active');
+  document.getElementById(`tab-${id}`).classList.add('active');
+}
+
+// ============================================================
+// NEWS FEED
+// ============================================================
+const newsItems = [
+  {
+    score: 100, scoreClass: 'score-100',
+    category: 'UCL FINAL', catClass: 'cat-ucl',
+    time: '2h ago',
+    headline: 'Gabriel penalty miss ends Arsenal\'s UCL dream. PSG retain 4-3 on penalties.',
+    sub: 'Havertz scored in the 6th minute. Arsenal defended deep. Dembele equalised. Gabriel\'s final pen went over. ARS-PERP moved hard.',
+    id: 'item1'
+  },
+  {
+    score: 100, scoreClass: 'score-100',
+    category: 'TRANSFERS', catClass: 'cat-transfers',
+    time: '30m ago',
+    headline: 'Transfer window opens June 1. Arteta signals "very ambitious" summer.',
+    sub: 'Premier League champions. UCL runners-up. The squad needs a striker. Every name gets linked. Every link moves the market.',
+    id: 'item2'
+  },
+  {
+    score: 95, scoreClass: 'score-90',
+    category: 'WORLD CUP', catClass: 'cat-worldcup',
+    time: '1h ago',
+    headline: 'Messi hamstring still uncertain. Argentina medical staff monitoring ahead of World Cup opener.',
+    sub: '12 days to the tournament. 39th birthday falls on a match day. The uncertainty is the trade. Do not wait for confirmation to post.',
+    id: 'item3'
+  },
+  {
+    score: 90, scoreClass: 'score-90',
+    category: 'MARKET', catClass: 'cat-market',
+    time: '3h ago',
+    headline: 'ARS-PERP at $305.95. Most volatile 48 hours since contract launch.',
+    sub: 'PL title win drove price to $312. UCL final loss pulled it back. Spread widened to $0.32. This is the content story nobody else is telling.',
+    id: 'item4'
+  },
+  {
+    score: 88, scoreClass: 'score-90',
+    category: 'WORLD CUP', catClass: 'cat-worldcup',
+    time: '4h ago',
+    headline: 'World Cup June 11. 104 potential markets. 38 days. Biggest acquisition window of the year.',
+    sub: 'Every fan of every nation is already thinking probabilistically. Notch makes that instinct executable.',
+    id: 'item5'
+  },
+  {
+    score: 75, scoreClass: 'score-80',
+    category: 'TRANSFERS', catClass: 'cat-transfers',
+    time: '5h ago',
+    headline: 'Viktor Gyokeres linked with Arsenal. 26 goals this season. Penalty miss in the shootout.',
+    sub: 'He missed his penalty for Arsenal in the UCL shootout, and is now linked as the striker target. The drama writes itself.',
+    id: 'item6'
+  }
+];
+
+function renderNews() {
+  document.getElementById('news-feed').innerHTML = newsItems.map(item => `
+    <div class="news-item">
+      <div class="news-score-badge ${item.scoreClass}">${item.score}</div>
+      <div class="news-body">
+        <div class="news-meta">
+          <span class="news-category ${item.catClass}">${item.category}</span>
+          <span class="news-time">${item.time}</span>
+        </div>
+        <div class="news-headline">${item.headline}</div>
+        <div class="news-sub">${item.sub}</div>
+        <div class="news-actions">
+          <button class="news-action-btn btn-generate" onclick="generateContent('${item.id}', this)">Generate Content Ideas</button>
+          <button class="news-action-btn btn-market" onclick="generateContent('${item.id}', this, true)">Market Angles</button>
+        </div>
+        <div class="ai-output" id="output-${item.id}">
+          <div class="ai-output-header">
+            <div class="ai-spinner" id="spinner-${item.id}"></div>
+            <div class="ai-thinking" id="thinking-${item.id}">Generating intelligence...</div>
+          </div>
+          <div class="ai-content" id="content-${item.id}"></div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+renderNews();
+
+// ============================================================
+// CATALYSTS
+// ============================================================
+const catalysts = [
+  { date: 'Jun 1', label: 'Transfer window opens', urgency: 'red' },
+  { date: 'Jun 11', label: 'World Cup kickoff (Mexico v South Africa)', urgency: 'amber' },
+  { date: 'Jun 24', label: 'Messi turns 39. Argentina match day.', urgency: 'amber' },
+  { date: 'Jul 3', label: 'World Cup Quarterfinals begin', urgency: 'electric' },
+  { date: 'Jul 19', label: 'World Cup Final. MetLife NJ.', urgency: 'electric' },
+  { date: 'Jul 23', label: 'Arsenal vs AC Milan, Singapore', urgency: 'electric' },
+  { date: 'Aug 11', label: 'Carabao Cup first round', urgency: 'none' },
+  { date: 'Aug 15', label: 'Premier League 26/27 begins', urgency: 'electric' },
+  { date: 'Sep 1', label: 'Transfer window closes', urgency: 'amber' },
+];
+
+function renderCatalysts() {
+  const colors = { red: 'var(--red)', amber: 'var(--amber)', electric: 'var(--electric)', none: 'var(--muted)' };
+  document.getElementById('catalysts-list').innerHTML = catalysts.map(c => `
+    <div style="display:flex; gap:10px; align-items:center; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04);">
+      <div style="font-family:'DM Mono',monospace; font-size:10px; color:${colors[c.urgency]}; min-width:44px; flex-shrink:0;">${c.date}</div>
+      <div style="font-size:11px; color:var(--white); line-height:1.3;">${c.label}</div>
+    </div>
+  `).join('');
+}
+renderCatalysts();
+
+// ============================================================
+// CALENDAR DATA
+// ============================================================
+const calendarData = {
+  june: {
+    year: 2026, month: 5, // 0-indexed
+    events: [
+      {
+        day: 31, prev: true, month: 'May',
+        title: 'UCL Final Aftermath',
+        layer: 'layer-react',
+        note: 'Gabriel miss. 22-year PL wait. Post within the hour, not tomorrow.',
+        timing: { time: 'Within 1 hour', medium: 'X / Twitter', window: 'Day-of Reactive' },
+        brief: 'Lead with the market, not the emotion. ARS-PERP moved hard. That is your angle. Do not eulogise. Do not sympathise. The price tells the story. One post: the number, the movement, one sentence about what it means. Let the fans fill the rest.',
+        posts: [
+          { label: 'X Post', text: 'ARS-PERP: $312 on PL title day. $305 this morning. Gabriel\'s spot-kick in one number.' },
+          { label: 'Push Notification', text: 'Gabriel missed. ARS-PERP just moved. Open the market.' }
+        ]
+      },
+      {
+        day: 1, month: 'Jun',
+        title: 'Transfer Window Opens',
+        layer: 'layer-react',
+        note: 'Every rumour is a market. Romano feed live. Arteta said "very ambitious."',
+        timing: { time: '08:00 UTC', medium: 'X / Discord / Push', window: 'Day-of Launch' },
+        brief: 'Transfer window content is a 90-day drip, not a single story. Day one: set the frame. "The window is open. Arsenal need a striker. Every name moves the market. We will be tracking it." One post, one Discord message, one push notification. Then let the rumours do the work.',
+        posts: [
+          { label: 'X Post', text: 'Transfer window open. Arsenal need a striker. Every name linked from here changes at least one price. We are tracking all of them.' },
+          { label: 'Discord Alpha', text: 'Window is live. Gyokeres odds moving already. Anyone watching the ARS-PERP spread right now?' }
+        ]
+      },
+      {
+        day: 4, month: 'Jun',
+        title: 'Arsenal summer targets deep-dive',
+        layer: 'layer-analyze',
+        note: 'Which signings move ARS-PERP and by how much. Price implications mapped.',
+        timing: { time: '10:00 UTC', medium: 'X Thread / Reddit', window: '48h Anticipation' },
+        brief: 'The thread that earns its way into group chats. Not "here are Arsenal\'s targets." Instead: "here is what each signing does to the price." Gyokeres in: likely +$8 to +$12 based on comparable PL striker arrivals. Sesko in: +$5. No signing by August 1: risk of ARS-PERP trading at discount to expectation. Make the fan feel like a trader. That is the entire job.',
+        posts: [
+          { label: 'X Thread Opener', text: 'Arsenal need a striker. Here is what each realistic target does to ARS-PERP. Thread.' },
+          { label: 'Reddit Post', text: 'Mapped every Arsenal striker target to ARS-PERP price implications. Gyokeres is the most interesting one.' }
+        ]
+      },
+      {
+        day: 11, month: 'Jun',
+        title: 'WORLD CUP KICKOFF',
+        layer: 'layer-react',
+        note: 'Mexico vs South Africa. 38 days of continuous market events begin.',
+        timing: { time: 'Kickoff -30min', medium: 'All Channels', window: 'Day-of Reactive' },
+        brief: 'Do not do a World Cup preview post. Do a market post. "104 markets are now live. Here are the three that will move most in the first week." Specificity is credibility. Everyone does hype. Nobody does the specific call. Make the specific call.',
+        posts: [
+          { label: 'X Post', text: 'World Cup is live. 104 markets. Three that will move most in week one: Argentina group stage odds, Messi minutes over/under, Brazil-England head-to-head. Markets are open.' },
+          { label: 'Push Notification', text: 'World Cup live. 104 markets. Start here.' }
+        ]
+      },
+      {
+        day: 21, month: 'Jun',
+        title: 'Messi pre-birthday build',
+        layer: 'layer-anticipate',
+        note: '72 hours of "will he play on his birthday" content. The uncertainty is the trade.',
+        timing: { time: 'Start 72h before', medium: 'X / TikTok / Discord', window: '72h Anticipation Window' },
+        brief: '72 hours before Messi\'s 39th birthday match. The content is not "happy birthday Leo." The content is: "the market has priced in Messi starting. If he does not, here is what moves." Run three posts across three days. Day one: the uncertainty. Day two: what the medical team is saying. Day three: the market position before kickoff.',
+        posts: [
+          { label: 'Day 1 X Post', text: 'Messi turns 39 on June 24. Argentina play that day. The market is pricing him to start. If he does not, three things move immediately.' },
+          { label: 'Discord Alpha', text: 'Anyone holding Argentina positions should be watching the Messi hamstring updates. Medical team press conference in two hours. Worth watching.' }
+        ]
+      },
+      {
+        day: 24, month: 'Jun',
+        title: 'Messi turns 39. Argentina group stage.',
+        layer: 'layer-culture',
+        note: 'Do not do a birthday post. Do the market post that uses the birthday as the hook.',
+        timing: { time: 'Match Day', medium: 'X / Push / TikTok', window: 'Day-of Culture Moment' },
+        brief: 'The birthday post that every account does is the one nobody remembers. The market post is the one that gets screenshotted. "Messi is 39 today. He is also starting for Argentina. The market moved $4 when he was confirmed in the lineup." The birthday is the hook. The price is the story.',
+        posts: [
+          { label: 'X Post', text: 'Messi turns 39 today. He is starting. The market moved the moment that was confirmed. Age is a number. The price is not.' },
+          { label: 'TikTok Hook', text: 'Video concept: "Every analyst said he wouldn\'t make it to 39 at this level. Here is what the market said instead." 15 seconds. Price chart. One sentence.' }
+        ]
+      },
+      {
+        day: 28, month: 'Jun',
+        title: 'World Cup Round of 32. Knockout begins.',
+        layer: 'layer-react',
+        note: 'Biggest single-day volume of the tournament. One game ends everything.',
+        timing: { time: 'Real-time', medium: 'X / Push Notifications', window: 'Day-of Reactive' },
+        brief: 'Knockout football is the easiest content format: one game, one result, immediate market consequence. For every game today, have a pre-written market angle ready. "If Argentina win: this moves. If they lose: this moves." Then fire the right one within five minutes of full time.',
+        posts: [
+          { label: 'X Post Template', text: '[Team] just went through. Here is what that does to the market for the next 72 hours.' },
+          { label: 'Push Notification', text: '[Team] through to the quarters. Three markets just moved. See what.' }
+        ]
+      }
+    ]
+  },
+  july: {
+    year: 2026, month: 6,
+    events: [
+      {
+        day: 3, month: 'Jul',
+        title: 'World Cup Quarterfinals',
+        layer: 'layer-react',
+        note: 'Four games. Four potential upsets. Four market explosions.',
+        timing: { time: 'Real-time', medium: 'X / Discord / Push', window: 'Day-of Reactive' },
+        brief: 'Quarterfinals are when the World Cup becomes everyone\'s topic. Every group chat has a position. Content goal: be the account that already had the call before the game. Publish pre-match market positions in the morning. React to results in real time. By end of day, you have been right about at least one thing. That one thing is what gets shared.',
+        posts: [
+          { label: 'Pre-match X Post', text: 'Quarterfinals today. Four games. Here are the four market positions worth watching before kickoff.' },
+          { label: 'Post-upset Push', text: '[Team] out. Nobody saw that coming. Three markets repriced in 10 minutes. See what moved.' }
+        ]
+      },
+      {
+        day: 12, month: 'Jul',
+        title: 'World Cup Semifinals',
+        layer: 'layer-react',
+        note: 'The two biggest games before the final. Maximum market liquidity.',
+        timing: { time: 'Kickoff -1h', medium: 'All Channels', window: 'Day-of Reactive' },
+        brief: 'Two games that determine the final. Market liquidity at peak. Content priority: the narrative angles that will define the final before it is set. "If England and France meet in the final, here is what the market prices in." The speculation is the content. Ship it early.',
+        posts: [
+          { label: 'X Post', text: 'Two games. Two possible finals. The market has already priced three of the four possible finals differently. Here is the most interesting one.' }
+        ]
+      },
+      {
+        day: 19, month: 'Jul',
+        title: 'WORLD CUP FINAL. MetLife Stadium, NJ.',
+        layer: 'layer-react',
+        note: 'The 38-day content machine reaches its peak. Biggest sports moment on earth.',
+        timing: { time: 'All Day', medium: 'All Channels Maximum', window: 'Day-of Full Deploy' },
+        brief: 'Everything the last 38 days built toward. Content runs from morning to late night. Morning: the market positions. Pre-game: the narrative. Half-time: the price update. Full-time: the call review. "Who held the right position." Next morning: the best community calls published as editorial. This is the day the brand either cements itself or disappears into the noise.',
+        posts: [
+          { label: 'Morning X Post', text: 'World Cup Final day. The market has one clear favourite. The community is split. In six hours, someone is going to look very smart.' },
+          { label: 'Push Notification', text: 'Final day. Markets are live. Your call is on record.' }
+        ]
+      },
+      {
+        day: 21, month: 'Jul',
+        title: 'World Cup aftermath. Best calls week.',
+        layer: 'layer-analyze',
+        note: 'Best predictions published. Community leaderboard. Who read the market right?',
+        timing: { time: '10:00 UTC', medium: 'X Thread / Reddit / Discord', window: 'Post-Event Analysis' },
+        brief: 'The debrief that builds community. Publish the community leaderboard. Surface the three best calls from the tournament. Give those users a moment. "This user called the Argentina result two days before the quarterfinal. Here is the market position they took." Make people want to be on that list for the next tournament.',
+        posts: [
+          { label: 'X Thread', text: 'The World Cup is done. Here are the five calls from the Notch community that turned out to be right. Thread.' }
+        ]
+      },
+      {
+        day: 23, month: 'Jul',
+        title: 'Arsenal vs AC Milan. Singapore.',
+        layer: 'layer-anticipate',
+        note: 'First look at summer signings. ARS-PERP first test of new season pricing.',
+        timing: { time: 'Matchday', medium: 'X / Discord', window: 'Anticipation + Reactive' },
+        brief: 'Pre-season is not dead content. It is the first look at what Arsenal actually bought. "Gyokeres starts. ARS-PERP is at [X]. Here is what the market thinks about the new lineup." Make the friendly feel like the first data point of a season-long thesis.',
+        posts: [
+          { label: 'X Post', text: 'Arsenal vs Milan in Singapore. First pre-season game with the summer signings. ARS-PERP is at [X]. The market is watching the lineup.' }
+        ]
+      },
+      {
+        day: 31, month: 'Jul',
+        title: 'Arsenal vs Tottenham. Hong Kong.',
+        layer: 'layer-culture',
+        note: 'First north London derby pre-season abroad. Unique cultural moment.',
+        timing: { time: 'Matchday', medium: 'X / TikTok', window: 'Culture Moment' },
+        brief: 'North London derby content works because the rivalry is infinite and the audience is global. In Hong Kong, it has a cultural layer. Do not play the rivalry straight. Play the market angle: "NLD-PERP does not exist yet. But if it did, here is what it would be priced at right now."',
+        posts: [
+          { label: 'X Post', text: 'Arsenal vs Spurs in Hong Kong. The market does not care about the result. It cares about who looks sharper before August 15. We are watching.' }
+        ]
+      }
+    ]
+  },
+  august: {
+    year: 2026, month: 7,
+    events: [
+      {
+        day: 11, month: 'Aug',
+        title: 'Carabao Cup first round. Season begins.',
+        layer: 'layer-product',
+        note: 'Community onboarding push. New season, new users.',
+        timing: { time: 'Matchday', medium: 'All Channels Onboarding', window: 'Product Launch Window' },
+        brief: 'The Carabao Cup is not the story. The new season is. This is the moment to run the onboarding push. First-time users, referral loop activated, Discord channel refreshed for the new season. Content angle: "The season has technically started. ARS-PERP enters it at [X]. Here is what the market expects from the champions this year."',
+        posts: [
+          { label: 'X Post', text: 'Season starts tonight. ARS-PERP is at [X]. The market has a clear view on where Arsenal end up in May. We will see.' },
+          { label: 'Push Notification', text: 'New season. New market. First game tonight.' }
+        ]
+      },
+      {
+        day: 13, month: 'Aug',
+        title: 'Premier League fixture release. Content goldmine.',
+        layer: 'layer-anticipate',
+        note: 'Map every Arsenal fixture to market implications. 38 games of content seeded in one day.',
+        timing: { time: 'Release Day', medium: 'X Thread / Discord / Reddit', window: '48h Anticipation Content' },
+        brief: 'Fixture release day generates more social engagement than most match days. The angle nobody takes: map each fixture to a market prediction. "Arsenal play Man City on November 22. Based on current ARS-PERP pricing, that is a significant test. Here is what the market needs to see before then." 38 data points, one thread, every Arsenal fan shares it.',
+        posts: [
+          { label: 'X Thread Opener', text: 'PL fixtures are out. Mapped every Arsenal game to what it means for ARS-PERP. Some of these matchday predictions are going to look interesting in May. Thread.' }
+        ]
+      },
+      {
+        day: 15, month: 'Aug',
+        title: 'PREMIER LEAGUE SEASON BEGINS',
+        layer: 'layer-react',
+        note: 'Arsenal defending champions. ARS-PERP enters new season at premium. This is the reset.',
+        timing: { time: 'Kickoff day', medium: 'All Channels Maximum', window: 'Season Launch' },
+        brief: 'This is what everything has been building toward. The season opener for a defending PL champion. ARS-PERP is live, priced at a premium, and every Arsenal fan in the world is paying attention. Content from 9am to midnight. The morning call, the lineup reaction, the first-half update, the full-time market move, the evening analysis. Make every post feel like it was written by someone who had been thinking about this for 90 days. Because it was.',
+        posts: [
+          { label: 'Morning X Post', text: 'Premier League starts today. Arsenal are defending champions. ARS-PERP is at [X]. By tonight, we will know if that price held up.' },
+          { label: 'Push Notification', text: 'Season day. ARS-PERP is live. First result in 90 minutes.' }
+        ]
+      },
+      {
+        day: 23, month: 'Aug',
+        title: 'First big PL weekend. Market sentiment piece.',
+        layer: 'layer-analyze',
+        note: 'Early season price discovery. Who overperformed? Who crashed?',
+        timing: { time: 'Sunday evening', medium: 'X / Reddit / Discord', window: 'Weekend Analysis' },
+        brief: 'The first weekend review is the content piece that earns Notch credibility as a media brand. Not match reports. Market analysis. "After two weekends, here is what the price is saying about the title race that the table has not yet caught up with." The table is public. The market interpretation is not. That is the value.',
+        posts: [
+          { label: 'X Post', text: 'Two weekends of PL football. Here is what the market saw that the table does not show yet.' }
+        ]
+      },
+      {
+        day: 28, month: 'Aug',
+        title: 'Transfer deadline day build',
+        layer: 'layer-anticipate',
+        note: '72 hours of deadline drama content. Every deal changes at least one price.',
+        timing: { time: '72h countdown', medium: 'All Channels', window: '72h Anticipation' },
+        brief: 'Deadline day is the single highest-engagement content moment in club football outside of match day. Start the countdown 72 hours early. "Three days until the window closes. These are the five deals that would move the market most if they happen." Update every 24 hours. By deadline day itself, the audience is primed and watching.',
+        posts: [
+          { label: 'X Post', text: 'Transfer deadline in 72 hours. Five deals that would move the market most if they happen. Some of these are closer than people think.' },
+          { label: 'Discord Alert', text: 'Deadline countdown live. Drop anything you are seeing in this channel. We are tracking everything that affects the market.' }
+        ]
+      }
+    ]
+  }
+};
+
+// ============================================================
+// CALENDAR RENDER
+// ============================================================
+let selectedDay = null;
+let currentMonth = 'june';
+
+function switchCalMonth(month) {
+  currentMonth = month;
+  document.querySelectorAll('.cal-month-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[onclick="switchCalMonth('${month}')"]`).classList.add('active');
+  document.querySelectorAll('.cal-month-view').forEach(v => v.style.display = 'none');
+  document.getElementById(`cal-grid-${month}`).style.display = 'block';
+  selectedDay = null;
+  showEmptyDetail();
+}
+
+function showEmptyDetail() {
+  document.getElementById('event-detail-empty').style.display = 'block';
+  document.getElementById('event-detail-content').style.display = 'none';
+}
+
+function showEventDetail(event) {
+  document.getElementById('event-detail-empty').style.display = 'none';
+  const el = document.getElementById('event-detail-content');
+  el.style.display = 'block';
+
+  const layerColors = {
+    'layer-react': 'var(--red)',
+    'layer-anticipate': 'var(--electric)',
+    'layer-analyze': 'var(--violet)',
+    'layer-culture': 'var(--green)',
+    'layer-product': 'var(--amber)'
+  };
+
+  const postsHtml = (event.posts || []).map(p => `
+    <div style="margin-bottom:8px;">
+      <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">${p.label}</div>
+      <div style="font-size:11px; color:rgba(238,242,247,0.85); background:rgba(0,207,255,0.04); border:1px solid var(--electric-border); padding:9px 11px; border-radius:var(--radius-sm); line-height:1.5; font-style:italic;">${p.text}</div>
+    </div>
+  `).join('');
+
+  el.innerHTML = `
+    <div class="event-date-display" style="color:${layerColors[event.layer] || 'var(--white)'};">${event.day}</div>
+    <div class="event-month-display">${event.month || ''} 2026</div>
+    <span class="cal-layer ${event.layer}" style="margin-bottom:12px; display:inline-block;">${event.layer.replace('layer-','').toUpperCase()}</span>
+    <div class="event-card">
+      <div class="event-card-title">${event.title}</div>
+      <div class="event-card-note">${event.note}</div>
+      <div class="event-timing-row">
+        <span class="event-timing-chip time">${event.timing.time}</span>
+        <span class="event-timing-chip medium">${event.timing.medium}</span>
+        <span class="event-timing-chip window">${event.timing.window}</span>
+      </div>
+    </div>
+    <div class="content-brief">
+      <div class="content-brief-label">Content Brief</div>
+      ${event.brief}
+    </div>
+    ${event.posts && event.posts.length ? `
+      <div style="margin-top:12px;">
+        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; color:var(--muted); text-transform:uppercase; margin-bottom:8px;">Ready-to-use Copy</div>
+        ${postsHtml}
+      </div>
+    ` : ''}
+  `;
+}
+
+function buildCalendarGrid(monthKey) {
+  const data = calendarData[monthKey];
+  const { year, month, events } = data;
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  const eventMap = {};
+  events.forEach(e => {
+    if (!e.prev) eventMap[e.day] = e;
+  });
+
+  const weekdays = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  let html = weekdays.map(d => `<div class="cal-weekday">${d}</div>`).join('');
+
+  // Empty cells before first day
+  for (let i = 0; i < firstDay; i++) {
+    html += `<div class="cal-cell empty"></div>`;
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const ev = eventMap[d];
+    if (ev) {
+      const dotClass = ev.layer.replace('layer-', 'dot-');
+      html += `
+        <div class="cal-cell has-event" onclick="selectCalDay(${d}, '${monthKey}')" id="calcell-${monthKey}-${d}">
+          <div class="cal-cell-num">${d}</div>
+          <div class="cal-cell-dots"><div class="cal-dot ${dotClass}"></div></div>
+        </div>`;
+    } else {
+      html += `<div class="cal-cell"><div class="cal-cell-num">${d}</div></div>`;
+    }
+  }
+
+  document.getElementById(`grid-${monthKey}`).innerHTML = html;
+
+  // Build list view
+  const listEl = document.getElementById(`list-${monthKey}`);
+  listEl.innerHTML = events.filter(e => !e.prev).map(e => `
+    <div class="cal-list-item" onclick="selectCalDay(${e.day}, '${monthKey}')">
+      <div class="cal-list-date">
+        <div class="cal-list-day">${e.day}</div>
+        <div class="cal-list-month">${e.month}</div>
+      </div>
+      <div class="cal-list-body">
+        <div><span class="cal-layer ${e.layer}" style="font-size:8px;">${e.layer.replace('layer-','').toUpperCase()}</span></div>
+        <div class="cal-list-title-text">${e.title}</div>
+        <div class="cal-list-note">${e.note}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function selectCalDay(day, monthKey) {
+  // Deselect previous
+  document.querySelectorAll('.cal-cell.selected').forEach(c => c.classList.remove('selected'));
+
+  const cell = document.getElementById(`calcell-${monthKey}-${day}`);
+  if (cell) cell.classList.add('selected');
+
+  const data = calendarData[monthKey];
+  const event = data.events.find(e => e.day === day && !e.prev);
+  if (event) showEventDetail(event);
+}
+
+// Build all three months
+buildCalendarGrid('june');
+buildCalendarGrid('july');
+buildCalendarGrid('august');
+
+// ============================================================
+// AI PROMPTS (voice-aware, audience-calibrated)
+// ============================================================
+const VOICE_RULES = `
+VOICE AND AUDIENCE RULES (non-negotiable):
+- This audience knows what xG is, has an opinion on FFP, and follows Fabrizio Romano.
+- Do not explain what a perpetual contract is. Skip all setup. Start in the middle of the thought.
+- Write like the smartest person in the Discord, not a brand account.
+- Forbidden words and phrases: exciting, unique, platform, community, engage, leverage, space, ecosystem, game-changer, revolutionize, innovative, cutting-edge.
+- No em dashes. No "it's not X, it's Y" constructions. No adjective stacking.
+- X posts: short declarative sentences. No hashtags. No calls to action. The content is the value.
+- Discord messages: informal, direct, trader talking to traders. Like you are sharing alpha, not marketing.
+- Push notifications: under 100 characters. Creates genuine curiosity, not artificial urgency.
+- Maximum one adjective per sentence.
+- If the post would make a football fan feel marketed at, it is wrong. Start again.
+`;
+
+const prompts = {
+  item1: `${VOICE_RULES}
+
+Context: Arsenal lost the UCL Final on penalties to PSG. Gabriel Magalhaes missed the decisive kick. Budapest, 30 May 2026. Arsenal won the PL this season for the first time in 22 years. ARS-PERP (Arsenal perpetual contract on Notch.win) moved from $312 on PL title day to $305.95 after the final. Most volatile 48 hours since contract launch.
+
+Generate:
+1. Three specific prediction market ideas this creates (e.g. "Will Arsenal sign a striker before August?") — each one a genuine question a trader would find interesting, not generic
+2. One X post. Trader talking to traders. Under 280 characters. No emojis.
+3. One push notification. Under 100 characters. Genuine curiosity, not hype.`,
+
+  item2: `${VOICE_RULES}
+
+Context: Transfer window opens tomorrow (June 1). Arsenal won the PL, lost UCL final on penalties. Arteta said "very ambitious" summer. Viktor Gyokeres is linked. ARS-PERP is at $305.95. Gyokeres scored 26 goals, missed his penalty in the UCL shootout.
+
+Generate:
+1. Three transfer-related prediction market ideas for the Notch platform — specific, tradeable questions
+2. One X post that makes traders feel like they are getting alpha, not being advertised at. Under 280 characters.
+3. One Discord alpha channel message. Informal. Trader tone. Two sentences maximum.`,
+
+  item3: `${VOICE_RULES}
+
+Context: Messi's hamstring is uncertain for the World Cup. He turns 39 on June 24. Argentina's group stage game likely falls on or near his birthday. Notch.win trades sports perpetuals.
+
+Generate:
+1. Three specific market or content angles around Messi's birthday and physical uncertainty
+2. One X post. Not a birthday post. A market post that uses the birthday as the hook. Under 280 characters.
+3. One push notification. Under 100 characters. Creates genuine FOMO without being cringe.`,
+
+  item4: `${VOICE_RULES}
+
+Context: ARS-PERP went from $290 before Arsenal won the PL, to $312 on title day, then pulled back to $305 after the UCL final penalty loss. Spread is $0.32. This is a real market story.
+
+Generate:
+1. Two content pieces that use this price action as the story — make a football fan who has never looked at a market understand why this is interesting
+2. One X thread opener (first tweet only, under 280 characters) that a football fan and a trader would both stop scrolling for
+3. One market angle: what does this price action suggest about next season's expectations?`,
+
+  item5: `${VOICE_RULES}
+
+Context: World Cup starts June 11. 104 potential markets. 38 days. Every fan is already thinking probabilistically about their national team.
+
+Generate:
+1. Three World Cup market ideas that feel genuine to someone who has never used a prediction market before — specific enough to trade, simple enough to explain in one sentence
+2. Two sentences explaining what Notch does to a football fan. No use of: platform, crypto, perp, market, prediction, trading. Make it feel like something that should exist.
+3. One TikTok concept. 15 seconds. For someone who loves football but does not trade. Describe the video, do not write a script.`,
+
+  item6: `${VOICE_RULES}
+
+Context: Viktor Gyokeres scored 26 goals this season and missed his penalty in the UCL shootout for Arsenal. He is now linked as Arsenal's main striker target for the summer. ARS-PERP is live on Notch.
+
+Generate:
+1. Two specific market ideas around Gyokeres and Arsenal
+2. One X post that uses the penalty miss and transfer link as pure drama. Under 280 characters.
+3. One community Discord message seeding genuine discussion. Not promotional. Sounds like a trader who noticed something interesting.`
+};
+
+async function generateContent(itemId, btn) {
+  const outputEl = document.getElementById(`output-${itemId}`);
+  const spinnerEl = document.getElementById(`spinner-${itemId}`);
+  const thinkingEl = document.getElementById(`thinking-${itemId}`);
+  const contentEl = document.getElementById(`content-${itemId}`);
+
+  outputEl.classList.add('visible');
+  spinnerEl.classList.add('spinning');
+  thinkingEl.textContent = 'Generating intelligence...';
+  contentEl.innerHTML = '';
+  btn.disabled = true;
+
+  try {
+    const { url, options } = buildFetchOptions(prompts[itemId] || prompts.item1);
+    const response = await fetch(url, options);
+    const data = await response.json();
+    spinnerEl.classList.remove('spinning');
+
+    if (data.content && data.content[0]) {
+      thinkingEl.textContent = 'Intelligence ready';
+      const raw = data.content.map(b => b.text || '').join('\n');
+      contentEl.innerHTML = formatAIOutput(raw);
+    } else {
+      thinkingEl.textContent = 'Error';
+      contentEl.innerHTML = `<div class="error-text">API error: ${JSON.stringify(data.error || data)}</div>`;
+    }
+  } catch (err) {
+    spinnerEl.classList.remove('spinning');
+    thinkingEl.textContent = 'Error';
+    contentEl.innerHTML = `<div class="error-text">Request failed: ${err.message}</div>`;
+  }
+
+  btn.disabled = false;
+}
+
+function formatAIOutput(text) {
+  const lines = text.split('\n').filter(l => l.trim());
+  let html = '';
+  let currentSection = '';
+  let buffer = [];
+
+  const flush = () => {
+    if (!buffer.length) return;
+    const content = buffer.join(' ').trim();
+    if (!content) return;
+
+    if (currentSection.includes('market') || currentSection.includes('prediction') || currentSection.includes('market idea')) {
+      html += `<div class="market-idea">${content}</div>`;
+    } else if (currentSection.includes('x post') || currentSection.includes('twitter') || currentSection.includes('discord') || currentSection.includes('thread') || currentSection.includes('tiktok') || currentSection.includes('video')) {
+      html += `<div class="social-post">${content}</div>`;
+    } else if (currentSection.includes('push') || currentSection.includes('notification') || currentSection.includes('positioning') || currentSection.includes('content piece') || currentSection.includes('angle') || currentSection.includes('concept')) {
+      html += `<div class="push-notif"><span class="push-icon">&#8594;</span><span>${content}</span></div>`;
+    } else {
+      html += `<div style="font-size:11px; color:var(--muted); line-height:1.6; margin-bottom:6px; padding:4px 0;">${content}</div>`;
+    }
+    buffer = [];
+  };
+
+  lines.forEach(line => {
+    const lower = line.toLowerCase();
+    if (/^\d+\./.test(line.trim()) || lower.includes('market idea') || lower.includes('x post') || lower.includes('push notif') || lower.includes('discord') || lower.includes('twitter') || lower.includes('tiktok') || lower.includes('positioning') || lower.includes('content piece') || lower.includes('thread') || lower.includes('angle') || lower.includes('video') || lower.includes('concept') || lower.includes('notification')) {
+      flush();
+      currentSection = lower;
+      html += `<div class="ai-section-title">${line.replace(/^\d+\.\s*/, '').replace(/\*\*/g, '')}</div>`;
+    } else if (line.startsWith('**') || line.startsWith('##')) {
+      flush();
+      currentSection = lower;
+      html += `<div class="ai-section-title">${line.replace(/\*\*/g, '').replace(/##/g, '').trim()}</div>`;
+    } else {
+      const cleaned = line.replace(/\*\*/g, '').replace(/\*/g, '').replace(/^[-]\s*/, '').trim();
+      if (cleaned) buffer.push(cleaned);
+    }
+  });
+
+  flush();
+  return html || `<div style="font-size:11px; color:var(--muted); line-height:1.7; white-space:pre-wrap;">${text}</div>`;
+}
+</script>
+</body>
+</html>

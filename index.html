@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NOTCH: 90-Day War Room</title>
+<title>NOTCH: 90-Day content War Room</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Source+Serif+4:ital,opsz,wght@1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
 <style>
@@ -867,6 +867,43 @@ em,i,.serif-pull{font-family:var(--serif);font-style:italic;}
   .priority-score{text-align:left;margin-left:0;}
 }
 
+
+/* Per-card generator controls */
+.item-gen-actions{display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap;}
+.item-gen-btn{height:34px;padding:0 16px;border-radius:999px;background:linear-gradient(135deg,rgba(250,72,72,0.34),rgba(250,72,72,0.13));border:1px solid rgba(250,72,72,0.62);color:#fff!important;font-size:11px;font-weight:800;box-shadow:inset 0 1px 0 rgba(255,255,255,0.28),0 10px 24px rgba(250,72,72,0.16);backdrop-filter:blur(16px) saturate(150%);-webkit-backdrop-filter:blur(16px) saturate(150%);}
+.item-spinner{padding:0;}
+.item-gen-result{margin-top:12px;}
+.item-gen-tabs{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
+.item-gen-tabs .ns-out-tab{flex:none;padding:7px 14px;border-radius:999px;border:1px solid rgba(198,241,53,0.18);}
+
+
+/* FINAL LOCKED PATCH */
+.page-date-header{max-width:1440px;margin:0 auto;color:var(--white);font-family:var(--display);font-size:40px;font-weight:800;line-height:1;letter-spacing:-0.02em;text-align:left;padding:32px 32px 0;position:relative;z-index:1;}
+.top-brief{display:grid!important;grid-template-columns:minmax(0,3fr) minmax(260px,2fr)!important;gap:14px!important;padding:18px 32px 18px!important;}
+.priority-card{background:linear-gradient(135deg,rgba(255,64,64,0.07),rgba(183,148,255,0.04))!important;border:1px solid rgba(255,64,64,0.35)!important;border-left:3px solid var(--red)!important;box-shadow:0 18px 60px rgba(0,0,0,0.22)!important;}
+.why-card{background:linear-gradient(135deg,rgba(198,241,53,0.075),rgba(198,241,53,0.025))!important;border:1px solid var(--acid-border)!important;border-left:3px solid var(--acid)!important;box-shadow:none!important;display:flex!important;gap:16px!important;align-items:flex-start!important;}
+.why-label{display:inline-block!important;flex:0 0 auto!important;font-size:8px!important;letter-spacing:2px!important;text-transform:uppercase!important;color:var(--acid)!important;background:var(--acid-dim)!important;border:1px solid var(--acid-border)!important;border-radius:999px!important;padding:5px 10px!important;margin:0!important;font-weight:800!important;white-space:nowrap!important;}
+.why-text{font-size:12px!important;color:rgba(240,242,248,0.82)!important;line-height:1.7!important;margin:0 0 12px!important;}
+.why-flow{display:flex!important;align-items:center!important;gap:8px!important;flex-wrap:wrap!important;}
+.why-chip{font-size:9px!important;letter-spacing:1px!important;color:var(--acid)!important;background:var(--acid-dim)!important;border:1px solid var(--acid-border)!important;border-radius:999px!important;padding:6px 10px!important;font-weight:800!important;}
+.why-arrow{display:none!important;}
+.signal{background:linear-gradient(135deg,rgba(198,241,53,0.07),rgba(198,241,53,0.025))!important;border:1px solid var(--acid-border)!important;border-left:3px solid var(--acid)!important;color:var(--white)!important;box-shadow:none!important;display:flex!important;align-items:flex-start!important;gap:16px!important;}
+.signal-tag{font-size:8px!important;letter-spacing:2px!important;text-transform:uppercase!important;color:var(--acid)!important;background:var(--acid-dim)!important;border:1px solid var(--acid-border)!important;border-radius:999px!important;padding:5px 10px!important;flex:0 0 auto!important;margin:0!important;font-weight:800!important;white-space:nowrap!important;}
+.signal-text{font-size:12px!important;color:rgba(240,242,248,0.82)!important;line-height:1.7!important;}
+.signal-text strong{color:var(--white)!important;}
+.intel-intro{background:linear-gradient(135deg,rgba(198,241,53,0.07),rgba(198,241,53,0.025))!important;border:1px solid var(--acid-border)!important;border-left:3px solid var(--acid)!important;box-shadow:none!important;display:flex!important;align-items:flex-start!important;gap:16px!important;}
+.intel-intro::before{display:none!important;}
+.intel-intro-title{font-size:8px!important;letter-spacing:2px!important;text-transform:uppercase!important;color:var(--acid)!important;background:var(--acid-dim)!important;border:1px solid var(--acid-border)!important;border-radius:999px!important;padding:5px 10px!important;margin:0!important;flex:0 0 auto!important;font-weight:800!important;white-space:nowrap!important;}
+.intel-intro-body{font-size:12px!important;color:rgba(240,242,248,0.82)!important;line-height:1.7!important;}
+.intel-intro-body strong{color:var(--white)!important;}
+.ns-output-panel{background:rgba(0,0,0,0.28)!important;border:1px solid rgba(198,241,53,0.12)!important;border-radius:12px!important;margin-top:12px!important;overflow:hidden!important;}
+.ns-output-panel .ns-out-tabs{display:flex!important;gap:8px!important;padding:10px!important;border-bottom:1px solid rgba(255,255,255,0.06)!important;}
+.ns-output-panel .toggleable-tab{flex:none!important;display:inline-flex!important;align-items:center!important;gap:7px!important;background:rgba(255,255,255,0.04)!important;border:1px solid rgba(198,241,53,0.18)!important;border-radius:999px!important;color:rgba(240,242,248,0.72)!important;padding:8px 12px!important;margin:0!important;box-shadow:inset 0 1px 0 rgba(255,255,255,0.04)!important;}
+.ns-output-panel .toggleable-tab:hover{background:rgba(198,241,53,0.08)!important;border-color:rgba(198,241,53,0.32)!important;color:var(--white)!important;transform:translateY(-1px)!important;}
+.ns-output-panel .toggleable-tab.active{background:var(--acid-dim)!important;border-color:var(--acid-border)!important;color:var(--acid)!important;}
+.tab-icon{width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:rgba(198,241,53,0.1);border:1px solid rgba(198,241,53,0.2);font-size:12px;line-height:1;}
+@media(max-width:1000px){.page-date-header{font-size:36px;padding:24px 16px 0!important;}.top-brief{grid-template-columns:1fr!important;padding:16px 16px 16px!important;}.why-card,.signal,.intel-intro{display:block!important;}.why-label,.signal-tag,.intel-intro-title{display:inline-block!important;margin-bottom:12px!important;}}
+
 </style>
 </head>
 <body>
@@ -874,7 +911,7 @@ em,i,.serif-pull{font-family:var(--serif);font-style:italic;}
 <header class="header">
   <div style="display:flex;align-items:center;gap:14px;">
     <div class="header-logo">NOT<span>CH</span></div>
-    <div class="hm-tag">90-Day War Room</div>
+    <div class="hm-tag">90-Day content War Room</div>
   </div>
   <div class="header-meta">
     <div id="live-time"></div>
@@ -882,12 +919,13 @@ em,i,.serif-pull{font-family:var(--serif);font-style:italic;}
   </div>
 </header>
 
+<div class="page-date-header">30 May 2026</div>
+
 <section class="top-brief">
   <div class="top-signal priority-card">
     <div class="signal-tag">Priority 100</div>
     <div class="top-card-copy">
       <div class="priority-title">Arsenal lose UCL Final on penalties to PSG. Gabriel Magalhaes misses the decisive kick.</div>
-      <div class="priority-copy">Budapest, 30 May 2026. Arsenal won the Premier League after 22 years, then Gabriel's spot-kick went over the bar. ARS-PERP has had the most volatile 48 hours in its existence. This is the content moment. Not tomorrow. Now.</div>
     </div>
     <div class="priority-score">
       <div class="priority-score-n">100</div>
@@ -896,15 +934,13 @@ em,i,.serif-pull{font-family:var(--serif);font-style:italic;}
   </div>
 
   <div class="top-signal why-card">
-    <div class="signal-tag">30 May 2026</div>
     <div class="top-card-copy">
-      <div class="why-text"><strong>Budapest, Saturday 30 May 2026.</strong> Arsenal won the Premier League after 22 years, then lost the Champions League final on penalties. Gabriel missed. The transfer window opens next, and the World Cup follows soon after. <strong>Every Arsenal fan is emotional. Every trader is recalibrating.</strong></div>
-      <div class="why-flow">
-        <span class="why-chip">High: match content</span>
-        <span class="why-chip">High: transfer speculation</span>
-        <span class="why-chip">Medium: UCL aftermath</span>
-        <span class="why-chip">Early build: World Cup markets</span>
-      </div>
+    <div class="why-flow">
+      <span class="why-chip">High: match content</span>
+      <span class="why-chip">High: transfer speculation</span>
+      <span class="why-chip">Medium: UCL aftermath</span>
+      <span class="why-chip">Early build: World Cup markets</span>
+    </div>
     </div>
   </div>
 </section>
@@ -1113,15 +1149,15 @@ em,i,.serif-pull{font-family:var(--serif);font-style:italic;}
     <div class="del-card">
       <div class="del-type">Creator Integration Brief · TikTok / Reels</div>
       <div class="del-title">Messi birthday game. Jun 24. 22-second brief.</div>
-      <div class="del-strat">Sent to football finance analysis creators in the 300k–600k range. The integration uses Notch data in their existing format. The product is the close, not the pitch.</div>
+      <div class="del-strat">Sent to football finance analysis creators in the 300k to 600k range. The integration uses Notch data in their existing format. The product is the close, not the pitch.</div>
 
       <div style="background:rgba(0,0,0,0.3);border:1px solid var(--line);border-radius:var(--r);padding:16px;font-size:11px;color:var(--muted);line-height:1.75;margin-bottom:12px;">
         <div style="color:var(--acid);font-size:8px;letter-spacing:2px;margin-bottom:10px;">VIDEO BRIEF · 22 SECONDS</div>
-        <strong style="color:var(--white);">Hook (0–2s)</strong><br>
+        <strong style="color:var(--white);">Hook (0 to 2s)</strong><br>
         "Messi turns 39 in three days and Argentina are playing his birthday game on June 24."<br><br>
-        <strong style="color:var(--white);">Middle (2–18s)</strong><br>
+        <strong style="color:var(--white);">Middle (2 to 18s)</strong><br>
         Riff on the genuine uncertainty: hamstring history, Argentina's group fixture, and the fact that nobody outside the medical team actually knows. Show the Notch market price graphic for "Messi starts vs opponent" with real uncertainty priced in.<br><br>
-        <strong style="color:var(--white);">Close (18–22s)</strong><br>
+        <strong style="color:var(--white);">Close (18 to 22s)</strong><br>
         Natural: "You can actually put money on this at notch.win. It is a prediction market. I find this more interesting than watching Twitter argue about it."<br><br>
         <strong style="color:var(--white);">Format note</strong><br>
         No script. Creator riffing in their existing style. Notch data as a visual aid, not a logo placement.
@@ -1171,33 +1207,12 @@ em,i,.serif-pull{font-family:var(--serif);font-style:italic;}
 
   <div class="signal mb24">
     <div class="signal-tag">WHAT THIS IS</div>
-    <div class="signal-text">A live signal feed that scores incoming events by content opportunity and generates platform-specific outputs on demand. The four cards below are hand-written examples showing what the output looks like. <strong>The generator at the top takes any live event and produces the same format in real time using the Anthropic or Gemini API.</strong><br><br>I'm not technical, I can pull together a cute generator but ideally the technical team can build the most efficient tool to transfer live news to push notifications/tweets without that &quot;bot vibe&quot;. Notch should double as a live news room for their sport interests.</div>
+    <div class="signal-text">A live signal feed that scores incoming events by content opportunity and turns each story into platform-specific ideas on demand. The four cards below are grounded in the 30 May final and the handoff into the World Cup window. I am not technical. I can pull together a cute demo, but ideally the technical team can build the most efficient tool for turning live sports news into content without that &quot;bot vibe&quot;. Notch should double as a live newsroom for sports markets.</div>
   </div>
 
   <div class="g-main-wide mb14">
     <div>
       <!-- GENERATOR -->
-      <div class="api-box mb14">
-        <div class="api-box-label">Live generator demo</div>
-        <div class="api-row">
-          <input class="api-input" id="gen-input" placeholder="Paste a headline or event, e.g. Gyokeres signs for Arsenal, fee £72m confirmed" />
-          <button class="api-btn" id="gen-btn" onclick="runGenerator()">Generate</button>
-        </div>
-        <div class="api-spinner" id="gen-spinner">
-          <div class="spinner-dot"></div><div class="spinner-dot"></div><div class="spinner-dot"></div>
-          <span class="spinner-txt">Generating outputs...</span>
-        </div>
-        <div class="api-result" id="gen-result">
-          <div class="api-result-head" id="gen-result-head">Content outputs</div>
-          <div id="gen-result-body"></div>
-          <div style="display:flex;gap:6px;margin-top:10px;">
-            <button class="ns-out-tab" id="gen-tab-content" style="flex:none;padding:7px 14px;border-radius:var(--r);" onclick="switchGenTab('content')">Content</button>
-            <button class="ns-out-tab" id="gen-tab-market" style="flex:none;padding:7px 14px;border-radius:var(--r);" onclick="switchGenTab('market')">Market angles</button>
-            <button class="ns-out-tab" id="gen-tab-push" style="flex:none;padding:7px 14px;border-radius:var(--r);" onclick="switchGenTab('push')">Push copy</button>
-          </div>
-        </div>
-      </div>
-
       <!-- FEED -->
       <div class="ns-wrap" id="news-feed"></div>
     </div>
@@ -1222,7 +1237,7 @@ em,i,.serif-pull{font-family:var(--serif);font-style:italic;}
     <div class="act a1">
       <div class="act-num">Act 01</div>
       <div class="act-title">IGNITION</div>
-      <div class="act-dates">Jun 1 – Jun 10 · 10 days</div>
+      <div class="act-dates">Jun 1 to Jun 10 · 10 days</div>
       <div class="act-payoff">Get the right people in the room before the World Cup starts. Seed the communities that carry the brand through 38 days of tournament football.</div>
       <ul class="act-items">
         <li>UCL aftermath content live tonight, led by the ARS-PERP price movement story</li>
@@ -1236,7 +1251,7 @@ em,i,.serif-pull{font-family:var(--serif);font-style:italic;}
     <div class="act a2">
       <div class="act-num">Act 02</div>
       <div class="act-title">WORLD CUP</div>
-      <div class="act-dates">Jun 11 – Jul 19 · 38 days</div>
+      <div class="act-dates">Jun 11 to Jul 19 · 38 days</div>
       <div class="act-payoff">Daily content cadence around every major result. Price movement stories. Creator integrations live. Push notification as editorial product. Volume acquisition at low CAC using earned media.</div>
       <ul class="act-items">
         <li>Game day reaction posts within 8 minutes of full time</li>
@@ -1250,7 +1265,7 @@ em,i,.serif-pull{font-family:var(--serif);font-style:italic;}
     <div class="act a3">
       <div class="act-num">Act 03</div>
       <div class="act-title">SEASON</div>
-      <div class="act-dates">Jul 20 – Aug 31 · 43 days</div>
+      <div class="act-dates">Jul 20 to Aug 31 · 43 days</div>
       <div class="act-payoff">Transfer window live. Premier League clubs pricing in. Convert the World Cup audience into club PERP holders before the season starts.</div>
       <ul class="act-items">
         <li>Transfer window daily market brief</li>
@@ -1272,7 +1287,7 @@ em,i,.serif-pull{font-family:var(--serif);font-style:italic;}
 
   <div class="signal mb14">
     <div class="signal-tag">LAYERS</div>
-    <div class="signal-text">Six content layers running in parallel. <strong>React</strong> (event-driven, same day). <strong>Anticipate</strong> (72hrs out). <strong>Analyze</strong> (24–48hrs post-event). <strong>Culture</strong> (brand voice). <strong>Product</strong> (feature tied to a live market). <strong>Partnership</strong> (media and creator content).</div>
+    <div class="signal-text">Six content layers running in parallel. <strong>React</strong> (event-driven, same day). <strong>Anticipate</strong> (72hrs out). <strong>Analyze</strong> (24 to 48hrs post-event). <strong>Culture</strong> (brand voice). <strong>Product</strong> (feature tied to a live market). <strong>Partnership</strong> (media and creator content).</div>
   </div>
 
   <div class="cal-layout">
@@ -1347,7 +1362,7 @@ em,i,.serif-pull{font-family:var(--serif);font-style:italic;}
         <div class="cr-avatar cr-a4">FP</div>
         <div>
           <div class="cr-name">FPL community accounts</div>
-          <div class="cr-handle">Multiple accounts 20k–150k, @FPLTips / @FPLGeneral orbit</div>
+          <div class="cr-handle">Multiple accounts 20k to 150k, @FPLTips / @FPLGeneral orbit</div>
           <div class="cr-detail">FPL Twitter obsesses over player value, transfer timing, and squad composition. The accounts that work for Notch are ones already using financial language: "is Salah worth the premium?", "sell before the price rises." <strong>That sentence structure is the Notch product.</strong> The integration is them using Notch player data in their normal FPL prep content.</div>
           <span class="pill pill-acid">Phase 2</span>
         </div>
@@ -1394,7 +1409,7 @@ em,i,.serif-pull{font-family:var(--serif);font-style:italic;}
           <div class="aff-n">FT</div>
           <div>
             <div class="aff-title">Football finance Telegram channels</div>
-            <div class="aff-body">Several channels at 5k–20k subscribers. Harder to access but referral rates from Telegram tend to be strong. Approach via direct outreach to channel admins.</div>
+            <div class="aff-body">Several channels at 5k to 20k subscribers. Harder to access but referral rates from Telegram tend to be strong. Approach via direct outreach to channel admins.</div>
           </div>
         </div>
       </div>
@@ -1415,7 +1430,7 @@ em,i,.serif-pull{font-family:var(--serif);font-style:italic;}
   <div class="div-n">
     <div class="div-n-num">02</div>
     <div class="div-n-line"></div>
-    <div class="div-n-label">Affiliate architecture · Phase 1 (Day 31–60)</div>
+    <div class="div-n-label">Affiliate architecture · Phase 1 (Day 31 to 60)</div>
     <div class="div-n-line"></div>
   </div>
 
@@ -1662,7 +1677,7 @@ em,i,.serif-pull{font-family:var(--serif);font-style:italic;}
 </div>
 
 <footer class="footer">
-  <div class="footer-name">Essah · CMO Application</div>
+  <div class="footer-name">Essah · CMO</div>
   <div class="footer-brand">NOTCH</div>
 </footer>
 
@@ -1678,26 +1693,30 @@ function switchPane(id,btn){
 }
 
 const newsItems=[
-  {id:'n1',score:99,cat:'ucl',catLabel:'UCL FINAL',time:'11:38 PM',
-   head:'Arsenal lose UCL final on penalties. ARS-PERP pulls back $6',
-   sub:'Gabriel\'s miss sends PSG through. ARS-PERP drops from $312 to $305.95. Transfer window opens in 8 hours.',
-   content:['X thread tonight: ARS-PERP price movement story across 6 tweets. Lead with the $6 number.','Reddit r/Gunners long-form: map the full season price action. Product link in the last line.','Push notification: "Gabriel confirmed fit for pre-season. ARS-PERP moved $1.40."','Discord drop to Football Finance server after mod outreach.'],
-   market:['ARS-PERP at $305.95. The gap to the title-win price ($312) is the summer transfer window question.','Gyokeres signs before August: price likely moves to $315–$322 based on comparable signing data.','Open market: "Will Arsenal sign a £60m+ striker before August 31?"','Second market: "Arteta stays past January transfer window."']},
-  {id:'n2',score:94,cat:'transfer',catLabel:'TRANSFER',time:'10:15 PM',
-   head:'Gyokeres "close" per multiple sources. Fee gap at £12m',
-   sub:'Sporting want £80m. Arsenal have bid £68m. Historically this gap closes in ~14 days on deals this size.',
-   content:['X thread: "The Gyokeres gap is £12m. Here is how this deal closes." Historical transfer comps data.','Push: "Gyokeres medical booked in London. This one is close. ARS-PERP watching."','Discord alpha: drop the fee analysis in #transfer-talk before it is confirmed anywhere.'],
-   market:['ARS-PERP move on signing confirmation: estimated +$8–$12 based on comparable striker signings.','Counter-market: "Arsenal sign an alternative striker (not Gyokeres) before deadline" opens at 35%.','Total summer spend market: "Arsenal spend £100m+ net this window" is currently at 58%.']},
-  {id:'n3',score:88,cat:'wc',catLabel:'WORLD CUP',time:'9:02 PM',
-   head:'World Cup starts June 11. 104 markets go live on Notch',
-   sub:'38 days, 32 nations, one global event. Every result moves a price. The acquisition window opens in 10 days.',
-   content:['X countdown thread starting June 8: "Three days until the World Cup. Here are the five Notch markets worth watching."','TikTok creator integration: Messi birthday game (June 24). Hook: "Messi turns 39 in three days."','Reddit long-form on r/soccer: World Cup market design explainer. Data-led, product buried.'],
-   market:['Messi scores in the knockout rounds: opens at 67%, most-traded market of the tournament.','Which PL club sends most players to the final: Arsenal, City, Chelsea, Liverpool markets open simultaneously.','Highest-value debutant of the tournament: opens at $0, closes on final day.']},
-  {id:'n4',score:82,cat:'market',catLabel:'PRICE ACTION',time:'8:44 PM',
-   head:'PSG-PERP up $9 on UCL final win. New all-time high',
-   sub:'PSG win their first UCL since 2024. PERP hits $287. French league dominance now pricing in.',
-   content:['X post: PSG-PERP price action chart. Compare to where it sat before the Mbappe departure.','Push: "PSG win UCL. PSG-PERP at all-time high. The market had this before the final."'],
-   market:['PSG-PERP new resistance at $287. Next catalyst: Champions League draw in August.','Comparative market: "PSG or Arsenal, which PERP is higher by December 31?"']}
+  {id:'n1',score:99,cat:'ucl',catLabel:'UCL FINAL',time:'30 MAY',
+   head:'Gabriel penalty miss ends Arsenal\'s UCL dream. PSG win 4-3 on penalties.',
+   sub:'Havertz scored early, Dembele levelled from the spot, and PSG retained the Champions League after a 1-1 draw in Budapest. ARS-PERP pulled back after the shootout.',
+   content:['X thread: lead with Gabriel over the bar, then show the ARS-PERP move in plain English.','Reddit r/Gunners post: proud season, brutal ending, market now asking what Arsenal need next.','Discord alpha drop: explain why the spread widened during penalties instead of waiting for the result.'],
+   market:['ARS-PERP reaction market: does the price recover before the transfer window opens?','Arsenal summer response market: first major signing before July 15.','Player trust market: Gabriel selected in Arsenal\'s first league XI next season.'],
+   promptContext:'PSG beat Arsenal 4-3 on penalties after a 1-1 draw in the Champions League final in Budapest on 30 May 2026. Kai Havertz scored early, Ousmane Dembele equalised from the spot, and Gabriel missed the decisive Arsenal penalty. ARS-PERP pulled back after the shootout.'},
+  {id:'n2',score:90,cat:'transfer',catLabel:'TEAM NEWS',time:'PRE-KO',
+   head:'Havertz starts as Arsenal striker. Gyokeres begins on the bench.',
+   sub:'Reuters reported Havertz was picked ahead of Viktor Gyokeres, with Timber also starting on the bench. The striker hierarchy became a market story before kick-off.',
+   content:['X post: Arsenal picked Havertz for the biggest game of the season. What does that say about Gyokeres?','Reddit angle: this is not a transfer rumour. It is a live read on who Arteta trusts under pressure.','Push idea: Havertz starts. Gyokeres waits. ARS-PERP has a striker question now.'],
+   market:['Next Arsenal striker start market: Havertz, Gyokeres, or new signing.','Gyokeres role market: starts Matchday 1, bench, loan, or exit.','Arsenal forward upgrade market: club signs another striker before deadline day.'],
+   promptContext:'Before the Champions League final, Reuters reported Kai Havertz was selected as Arsenal\'s starting striker over Viktor Gyokeres. Jurrien Timber was on the bench and Cristhian Mosquera started at right back. Use this as a striker hierarchy and market confidence story.'},
+  {id:'n3',score:92,cat:'market',catLabel:'PSG MARKET',time:'FT',
+   head:'PSG retain the Champions League. Back-to-back status changes the market story.',
+   sub:'PSG became only the second club to retain the Champions League in the modern era. PSG-PERP can now trade on dynasty talk, not just one trophy night.',
+   content:['X thread: PSG did not just win. They joined the rare back-to-back club.','Chart post: PSG-PERP before kick-off, after Dembele\'s penalty, and after the final spot-kick.','Creator prompt: ask whether PSG are now the safest club market in Europe.'],
+   market:['PSG-PERP all-time high watch: does the trophy premium hold for 72 hours?','European dynasty market: PSG reach the next Champions League final.','Club comparison market: PSG-PERP versus Arsenal PERP by December 31.'],
+   promptContext:'PSG retained the Champions League by beating Arsenal on penalties after a 1-1 draw. BBC reported they became only the second club to retain the Champions League in the modern era after Real Madrid. PSG-PERP is up in the Notch scenario.'},
+  {id:'n4',score:84,cat:'wc',catLabel:'WORLD CUP',time:'NEXT WINDOW',
+   head:'Club football hands off to the World Cup. Notch has 104 markets ready.',
+   sub:'The final gives Notch one last club-football spike before the June 11 World Cup launch. The same users can move from club PERPs into national-team markets.',
+   content:['X countdown: the Champions League price move is the bridge into World Cup market behaviour.','Creator brief: explain how club PERP holders can use tournament news before casual fans catch up.','Push sequence: final result tonight, World Cup watchlist tomorrow, first market preview three days out.'],
+   market:['World Cup opening week market: which club PERP moves first because of a national-team performance?','Messi starts group opener market, paired with push alerts around training news.','Player breakout market: highest-value debutant by the end of the tournament.'],
+   promptContext:'The Champions League final ended on 30 May 2026 and the World Cup begins on June 11. Notch has 104 World Cup markets planned across 38 tournament days. Use the final as the handoff from club PERPs into international prediction markets.'}
 ];
 
 function renderNews(){
@@ -1707,7 +1726,7 @@ function renderNews(){
     const sc=item.score>=95?'ns-100':item.score>=90?'ns-90':item.score>=80?'ns-80':'ns-70';
     const contentRows=item.content.map(x=>`<div class="out-row">${x}</div>`).join('');
     const marketRows=item.market.map(x=>`<div class="out-row">${x}</div>`).join('');
-    return `<div class="ns-item">
+    return `<div class="ns-item" id="item-${item.id}">
       <div class="ns-top">
         <div class="ns-score ${sc}">${item.score}</div>
         <div style="flex:1;">
@@ -1721,24 +1740,128 @@ function renderNews(){
       </div>
       <div class="ns-output-panel">
         <div class="ns-out-tabs">
-          <button class="ns-out-tab active" onclick="switchItemTab('${item.id}','content',this)">Content</button>
-          <button class="ns-out-tab" onclick="switchItemTab('${item.id}','market',this)">Market angles</button>
+          <button class="ns-out-tab toggleable-tab" onclick="switchItemTab('${item.id}','content',this)"><span class="tab-icon">+</span><span>Content ideas</span></button>
+          <button class="ns-out-tab toggleable-tab" onclick="switchItemTab('${item.id}','market',this)"><span class="tab-icon">+</span><span>Market angles</span></button>
         </div>
-        <div class="ns-out-body active" id="ob-${item.id}-content">${contentRows}</div>
+        <div class="ns-out-body" id="ob-${item.id}-content">${contentRows}</div>
         <div class="ns-out-body" id="ob-${item.id}-market">${marketRows}</div>
+      </div>
+      <div class="item-gen-actions">
+        <button class="api-btn item-gen-btn" onclick="runItemGenerator('${item.id}',this)">Generate Content Ideas</button>
+        <div class="api-spinner item-spinner" id="spin-${item.id}">
+          <div class="spinner-dot"></div><div class="spinner-dot"></div><div class="spinner-dot"></div>
+          <span class="spinner-txt">Writing like a marketer, not a bot...</span>
+        </div>
+      </div>
+      <div class="api-result item-gen-result" id="res-${item.id}">
+        <div class="api-result-head">Generated from this signal</div>
+        <div id="igen-${item.id}-body"></div>
+        <div class="item-gen-tabs">
+          <button class="ns-out-tab active" id="igen-${item.id}-tab-content" onclick="switchGeneratedTab('${item.id}','content')">Content ideas</button>
+          <button class="ns-out-tab" id="igen-${item.id}-tab-market" onclick="switchGeneratedTab('${item.id}','market')">Market angles</button>
+          <button class="ns-out-tab" id="igen-${item.id}-tab-push" onclick="switchGeneratedTab('${item.id}','push')">Push copy</button>
+        </div>
       </div>
     </div>`;
   }).join('');
 }
 
 function switchItemTab(id,tab,btn){
-  const tabs=btn.closest('.ns-out-tabs').querySelectorAll('.ns-out-tab');
-  tabs.forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');
+  const wrap=btn.closest('.ns-output-panel');
+  const tabs=wrap.querySelectorAll('.ns-out-tabs .ns-out-tab');
+  const wasOpen=btn.classList.contains('active');
+  tabs.forEach(t=>{
+    t.classList.remove('active');
+    const icon=t.querySelector('.tab-icon');
+    if(icon) icon.textContent='+';
+  });
   ['content','market'].forEach(t=>{
     const el=document.getElementById('ob-'+id+'-'+t);
-    if(el) el.classList.toggle('active',t===tab);
+    if(el) el.classList.remove('active');
   });
+  if(!wasOpen){
+    btn.classList.add('active');
+    const icon=btn.querySelector('.tab-icon');
+    if(icon) icon.textContent='×';
+    const el=document.getElementById('ob-'+id+'-'+tab);
+    if(el) el.classList.add('active');
+  }
+}
+
+
+const itemGenData={};
+
+function cleanGeneratedText(value){
+  return String(value||'')
+    .replace(/\u2014/g, ', ')
+    .replace(/\u2013/g, '-')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+function rowsForGenerated(id,tab){
+  const rows=(itemGenData[id]&&itemGenData[id][tab])||[];
+  return rows.map(x=>`<div class="out-row">${cleanGeneratedText(x)}</div>`).join('')||'<div class="out-row">No output for this tab.</div>';
+}
+
+function showGeneratedTab(id,tab){
+  const body=document.getElementById(`igen-${id}-body`);
+  if(body)body.innerHTML=rowsForGenerated(id,tab);
+  ['content','market','push'].forEach(t=>{
+    const el=document.getElementById(`igen-${id}-tab-${t}`);
+    if(el)el.classList.toggle('active',t===tab);
+  });
+}
+
+function switchGeneratedTab(id,tab){
+  showGeneratedTab(id,tab);
+}
+
+async function runItemGenerator(id,btn){
+  const item=newsItems.find(x=>x.id===id);
+  if(!item)return;
+  const spinner=document.getElementById(`spin-${id}`);
+  const result=document.getElementById(`res-${id}`);
+  if(btn)btn.disabled=true;
+  if(spinner)spinner.classList.add('show');
+  if(result)result.classList.remove('show');
+  const prompt=`You are a senior sports marketer and editor for Notch, a sports perpetuals and prediction markets product. Turn the signal below into sharp, human-written content ideas. The output should feel written by a smart football internet native, not an automated tool. Be specific, creative, and usable by a marketer today. Avoid corporate phrasing. No em dashes anywhere. No slogans. No hashtags unless the idea truly needs one. No fake urgency. Do not explain what Notch is.
+
+Signal: ${item.head}
+Context: ${item.sub}
+Known facts and internal angle: ${item.promptContext}
+
+Return only valid JSON in this exact shape:
+{
+  "content": ["three platform-native content ideas for X, Reddit, Discord, creator briefs, or short video"],
+  "market": ["three market angles that could only come from Notch, not a sportsbook"],
+  "push": ["two short push notifications under 70 characters, written like a trader texting a friend"]
+}`;
+  try{
+    const resp=await fetch('/api/generate',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({messages:[{role:'user',content:prompt}]})
+    });
+    const data=await resp.json();
+    if(!resp.ok)throw new Error(data.error||'Generator failed');
+    const text=(data.content||[]).map(i=>i.text||'').join('');
+    const clean=text.replace(/```json|```/g,'').trim();
+    const parsed=JSON.parse(clean);
+    itemGenData[id]={
+      content:(parsed.content||[]).map(cleanGeneratedText),
+      market:(parsed.market||[]).map(cleanGeneratedText),
+      push:(parsed.push||[]).map(cleanGeneratedText)
+    };
+    showGeneratedTab(id,'content');
+    if(result)result.classList.add('show');
+  }catch(e){
+    itemGenData[id]={content:[`Could not generate yet. Check the Gemini API key or try again.`],market:[],push:[]};
+    showGeneratedTab(id,'content');
+    if(result)result.classList.add('show');
+  }
+  if(spinner)spinner.classList.remove('show');
+  if(btn)btn.disabled=false;
 }
 
 const catalysts=[
@@ -1859,8 +1982,6 @@ async function runGenerator(){
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
         messages:[{role:'user',content:`You are the CMO of Notch, a sports perpetuals and prediction markets platform. Given this event or headline, generate three categories of output. Reply ONLY with valid JSON, no markdown, no preamble.
 
 Event: "${val}"
